@@ -2,7 +2,7 @@ from functools import lru_cache
 from pathlib import Path
 from urllib.parse import quote_plus
 
-from pydantic import Field, field_validator
+from pydantic import Field, SecretStr, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 BACKEND_DIR = Path(__file__).resolve().parents[2]
@@ -26,8 +26,9 @@ class Settings(BaseSettings):
 
     rate_limit_default: str = Field()
     rate_limit_leads: str = Field()
+    trust_proxy_headers: bool = Field(default=False)
 
-    telegram_bot_token: str | None = Field()
+    telegram_bot_token: SecretStr | None = Field()
     telegram_chat_id: str | None = Field()
     telegram_timeout_seconds: int = Field()
 
@@ -57,7 +58,11 @@ class Settings(BaseSettings):
 
     @property
     def telegram_enabled(self) -> bool:
-        return bool(self.telegram_bot_token and self.telegram_chat_id)
+        return bool(
+            self.telegram_bot_token
+            and self.telegram_bot_token.get_secret_value()
+            and self.telegram_chat_id
+        )
 
 
 @lru_cache

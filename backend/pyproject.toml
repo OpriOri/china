@@ -1,7 +1,7 @@
 [project]
-name = "controlix-backend"
+name = "robbo-china-backend"
 version = "0.1.0"
-description = "FastAPI backend for CONTROLIX Group lead collection and analytics"
+description = "FastAPI backend for ROBBO educational trips to China lead collection"
 requires-python = ">=3.11"
 dependencies = [
   "alembic>=1.13.3",

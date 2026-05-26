@@ -1,30 +1,56 @@
-# CONTROLIX Group Backend
+# ROBBO China Trips Backend
 
-FastAPI backend for collecting website leads, storing analytics-ready records, and sending Telegram notifications.
+FastAPI backend for applications to educational summer trips to China. It validates the
+selected route and child age, stores applications, and can send Telegram notifications.
 
 ## Local Run
 
 ```bash
 cp .env.example .env
-pip install -r requirements-dev.txt
+python -m pip install -e ".[dev]"
 alembic upgrade head
 uvicorn app.main:app --reload
 ```
 
-For local migrations from Windows/macOS/Linux, keep `POSTGRES_HOST=localhost` in `backend/.env`.
-Inside Docker Compose the backend receives `POSTGRES_HOST=db` automatically.
+For local migrations from Windows/macOS/Linux, keep `POSTGRES_HOST=localhost` in
+`backend/.env`. Inside Docker Compose the backend receives `POSTGRES_HOST=db`.
 
-API healthcheck:
+Healthcheck:
 
 ```bash
 curl http://localhost:8000/health
 ```
 
-Lead endpoint:
+## Lead API
 
-```bash
+```http
 POST /api/v1/leads
+Content-Type: application/json
 ```
+
+```json
+{
+  "source": "hero",
+  "parent_name": "Анна Иванова",
+  "phone": "+7 (999) 123-45-67",
+  "child_age": 12,
+  "program": "xian",
+  "consent": true,
+  "page_url": "http://localhost:5173/"
+}
+```
+
+Allowed form sources: `hero`, `request`.
+
+Allowed programs:
+
+- `xian`
+- `nanjing-shanghai`
+- `chongqing-yangtze`
+
+The API accepts applications for children aged `7-17` and rejects unknown input fields.
+Prices and program labels used in notifications are resolved on the backend rather than
+accepted from the browser.
 
 ## Docker
 
@@ -33,18 +59,7 @@ From the project root:
 ```bash
 cp backend/.env.example backend/.env
 cp .env.example .env
-docker compose pull
-docker compose up -d
-```
-
-The database URL is assembled in `app/core/config.py` from:
-
-```env
-POSTGRES_USER=controlix
-POSTGRES_PASSWORD=controlix
-POSTGRES_HOST=localhost
-POSTGRES_PORT=5432
-POSTGRES_DB=controlix
+docker compose up -d --build
 ```
 
 ## Telegram
@@ -56,14 +71,12 @@ TELEGRAM_BOT_TOKEN=...
 TELEGRAM_CHAT_ID=...
 ```
 
-If Telegram variables are empty, leads are still saved and notification is skipped.
+If Telegram variables are empty, applications are still saved and notification is skipped.
+Notification failures are recorded without storing a bot token or request URL.
 
-## Deploy
+## Security Notes
 
-The GitHub Actions workflow expects repository secrets:
-
-- `SSH_HOST`
-- `SSH_USER`
-- `SSH_KEY`
-- `SSH_PORT` optional
-- `DEPLOY_PATH`
+- CORS origins must be explicitly configured through `CORS_ORIGINS`.
+- Application submission is rate-limited with `RATE_LIMIT_LEADS`.
+- The endpoint requires consent and validates known programs, age, phone, and page URL.
+- Store production PostgreSQL and Telegram credentials only in environment secrets.

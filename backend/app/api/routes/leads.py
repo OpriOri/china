@@ -10,7 +10,12 @@ from app.services.leads import create_lead
 router = APIRouter()
 
 
-@router.post("", response_model=LeadCreateResponse, status_code=status.HTTP_201_CREATED)
+@router.post(
+    "",
+    response_model=LeadCreateResponse,
+    status_code=status.HTTP_201_CREATED,
+    summary="Submit an application for a China summer trip",
+)
 @limiter.limit(settings.rate_limit_leads)
 async def submit_lead(
     request: Request,

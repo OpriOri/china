@@ -2,7 +2,7 @@ from datetime import datetime, timezone
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models.lead import Lead, LeadStatus
+from app.models.lead import Lead, LeadSource, LeadStatus
 from app.schemas.lead import LeadCreate
 from app.services.telegram import send_lead_notification
 
@@ -15,19 +15,15 @@ async def create_lead(
     ip_address: str | None,
 ) -> Lead:
     lead = Lead(
-        source=payload.source,
-        name=payload.name,
-        phone=payload.contact,
-        email=str(payload.email) if payload.email else None,
-        comment=payload.comment,
-        selected_service=payload.selected_service.model_dump(exclude_none=True)
-        if payload.selected_service
-        else None,
-        selections=payload.selections,
+        source=LeadSource(payload.source.value),
+        parent_name=payload.parent_name,
+        phone=payload.phone,
+        child_age=payload.child_age,
+        program=payload.program,
         consent=payload.consent,
-        page_url=payload.page_url,
-        user_agent=user_agent,
-        ip_address=ip_address,
+        page_url=str(payload.page_url) if payload.page_url else None,
+        user_agent=user_agent[:500] if user_agent else None,
+        ip_address=ip_address[:64] if ip_address else None,
     )
 
     db.add(lead)
@@ -35,9 +31,10 @@ async def create_lead(
 
     try:
         notified = await send_lead_notification(lead)
-    except Exception as exc:  # noqa: BLE001 - persisted for operator visibility
+    except Exception:  # noqa: BLE001 - Telegram failure must not reject an accepted lead
         lead.status = LeadStatus.notification_failed
-        lead.telegram_error = str(exc)[:1000]
+        # HTTP client exceptions can contain the bot token in the request URL.
+        lead.telegram_error = "Telegram notification failed"
     else:
         if not notified:
             await db.commit()

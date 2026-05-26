@@ -3,9 +3,7 @@ import uuid
 from datetime import datetime
 
 from sqlalchemy import DateTime, Enum, Index, String, Text, Uuid, func
-from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column
-from sqlalchemy.types import JSON
 
 from app.db.base import Base
 
@@ -14,6 +12,14 @@ class LeadSource(str, enum.Enum):
     contact = "contact"
     diagnostic = "diagnostic"
     service = "service"
+    hero = "hero"
+    request = "request"
+
+
+class TripProgram(str, enum.Enum):
+    xian = "xian"
+    nanjing_shanghai = "nanjing-shanghai"
+    chongqing_yangtze = "chongqing-yangtze"
 
 
 class LeadStatus(str, enum.Enum):
@@ -38,14 +44,14 @@ class Lead(Base):
         server_default=LeadStatus.new.value,
     )
 
-    name: Mapped[str] = mapped_column(String(120), nullable=False)
+    parent_name: Mapped[str] = mapped_column(String(120), nullable=False)
     phone: Mapped[str] = mapped_column(String(32), nullable=False)
-    email: Mapped[str | None] = mapped_column(String(160))
-    comment: Mapped[str | None] = mapped_column(Text)
-
-    selected_service: Mapped[dict | None] = mapped_column(JSON().with_variant(JSONB, "postgresql"))
-    selections: Mapped[dict | None] = mapped_column(JSON().with_variant(JSONB, "postgresql"))
-    consent: Mapped[bool] = mapped_column(nullable=False, default=True, server_default="true")
+    child_age: Mapped[int | None] = mapped_column(nullable=True)
+    program: Mapped[TripProgram | None] = mapped_column(
+        Enum(TripProgram, name="trip_program", values_callable=lambda values: [item.value for item in values]),
+        nullable=True,
+    )
+    consent: Mapped[bool] = mapped_column(nullable=False, default=False, server_default="false")
 
     page_url: Mapped[str | None] = mapped_column(String(500))
     user_agent: Mapped[str | None] = mapped_column(String(500))

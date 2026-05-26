@@ -6,13 +6,11 @@ from app.services.telegram import build_lead_message
 
 def lead_payload(**overrides):
     payload = {
-        "source": "diagnostic",
-        "name": "Иван Петров",
-        "contact": "+7 (909) 386-55-54",
-        "email": "ivan@example.com",
-        "comment": "Нужен первичный разбор проекта",
-        "selected_service": {"title": "Аудит сметы", "price": "от 120 000 ₽"},
-        "selections": {"stage": "design", "pain": "budget", "scale": "commercial"},
+        "source": "hero",
+        "parent_name": "Ирина Петрова",
+        "phone": "+7 (909) 386-55-54",
+        "child_age": 12,
+        "program": "nanjing-shanghai",
         "consent": True,
         "page_url": "http://localhost:8080/",
     }
@@ -30,17 +28,31 @@ async def test_create_lead_saves_payload(client, db_session):
 
     result = await db_session.execute(select(Lead))
     lead = result.scalar_one()
-    assert lead.source == LeadSource.diagnostic
-    assert lead.name == "Иван Петров"
+    assert lead.source == LeadSource.hero
+    assert lead.parent_name == "Ирина Петрова"
     assert lead.phone == "+7 (909) 386-55-54"
-    assert lead.email == "ivan@example.com"
-    assert lead.selected_service["title"] == "Аудит сметы"
-    assert lead.selections["pain"] == "budget"
+    assert lead.child_age == 12
+    assert lead.program.value == "nanjing-shanghai"
     assert lead.consent is True
 
 
 async def test_create_lead_requires_valid_phone(client):
-    response = await client.post("/api/v1/leads", json=lead_payload(contact="hello"))
+    response = await client.post("/api/v1/leads", json=lead_payload(phone="hello"))
+
+    assert response.status_code == 422
+
+
+async def test_create_lead_rejects_unknown_legacy_payload(client):
+    response = await client.post(
+        "/api/v1/leads",
+        json=lead_payload(selected_service={"title": "Подмена стоимости"}),
+    )
+
+    assert response.status_code == 422
+
+
+async def test_create_lead_requires_supported_child_age(client):
+    response = await client.post("/api/v1/leads", json=lead_payload(child_age=6))
 
     assert response.status_code == 422
 
@@ -58,8 +70,23 @@ async def test_telegram_message_keeps_russian_text(client, db_session):
     lead = result.scalar_one()
     message = build_lead_message(lead)
 
-    assert "Иван Петров" in message
-    assert "Аудит сметы" in message
-    assert "Калькулятор / диагностика" in message
-    assert "Стадия проекта: Проектирование" in message
-    assert "Главная проблема: Растет бюджет" in message
+    assert "Ирина Петрова" in message
+    assert "Нанкин + Шанхай" in message
+    assert "Форма на первом экране" in message
+    assert "Возраст ребенка:</b> 12" in message
+
+
+async def test_telegram_error_does_not_persist_bot_token(client, db_session, monkeypatch):
+    async def fail_notification(_lead):
+        raise RuntimeError("https://api.telegram.org/botSECRET_TOKEN/sendMessage")
+
+    monkeypatch.setattr("app.services.leads.send_lead_notification", fail_notification)
+
+    response = await client.post("/api/v1/leads", json=lead_payload())
+
+    assert response.status_code == 201
+    result = await db_session.execute(select(Lead))
+    lead = result.scalar_one()
+    assert lead.status == LeadStatus.notification_failed
+    assert lead.telegram_error == "Telegram notification failed"
+    assert "SECRET_TOKEN" not in lead.telegram_error
