@@ -1,0 +1,10 @@
+# DEPLOY WORKFLOW TEMPORARILY COMMENTED OUT
+#
+# Code-only push while the China landing redesign is in progress.
+# Restore the CI/deploy workflow after the frontend and production settings are finalized.
+#
+# Previous workflow purpose:
+# - run backend tests
+# - build frontend
+# - build and push Docker images
+# - deploy over SSH
