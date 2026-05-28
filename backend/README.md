@@ -35,8 +35,11 @@ Content-Type: application/json
   "phone": "+7 (999) 123-45-67",
   "child_age": 12,
   "program": "xian",
+  "program_title": "Сиань",
+  "program_date": "14-26 июня",
+  "program_price": "230 000 ₽",
   "consent": true,
-  "page_url": "http://localhost:5173/"
+  "page_url": "http://localhost:8080/"
 }
 ```
 
@@ -49,8 +52,8 @@ Allowed programs:
 - `chongqing-yangtze`
 
 The API accepts applications for children aged `7-17` and rejects unknown input fields.
-Prices and program labels used in notifications are resolved on the backend rather than
-accepted from the browser.
+The frontend sends the selected tour snapshot (`program_title`, `program_date`,
+`program_price`) so the saved lead and Telegram notification match the client choice.
 
 ## Docker
 

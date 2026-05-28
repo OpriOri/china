@@ -5,16 +5,16 @@ import httpx
 import pytest
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
-os.environ.setdefault("POSTGRES_USER", "controlix")
-os.environ.setdefault("POSTGRES_PASSWORD", "controlix")
+os.environ.setdefault("POSTGRES_USER", "postgres")
+os.environ.setdefault("POSTGRES_PASSWORD", "28egor28")
 os.environ.setdefault("POSTGRES_HOST", "localhost")
 os.environ.setdefault("POSTGRES_PORT", "5432")
-os.environ.setdefault("POSTGRES_DB", "controlix")
+os.environ.setdefault("POSTGRES_DB", "chinatour")
 os.environ.setdefault("APP_NAME", "РОББО China Trips API")
 os.environ.setdefault("APP_ENV", "test")
 os.environ.setdefault("DEBUG", "false")
 os.environ.setdefault("API_PREFIX", "/api/v1")
-os.environ.setdefault("CORS_ORIGINS", "http://localhost:5173")
+os.environ.setdefault("CORS_ORIGINS", "http://localhost:8080")
 os.environ.setdefault("RATE_LIMIT_DEFAULT", "60/minute")
 os.environ.setdefault("RATE_LIMIT_LEADS", "5/minute")
 os.environ.setdefault("TRUST_PROXY_HEADERS", "false")

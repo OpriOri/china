@@ -1,3 +1,4 @@
+import json
 from html import escape
 
 import httpx
@@ -26,22 +27,32 @@ def _clean(value: object) -> str:
 
 
 def build_lead_message(lead: Lead) -> str:
-    program_value = lead.program.value if lead.program else ""
-    program = PROGRAM_LABELS.get(program_value)
     program_text = "-"
-    if program:
-        title, dates, price = program
-        program_text = f"{_clean(title)} / {_clean(dates)} / {_clean(price)}"
+    if lead.program_title or lead.program_date or lead.program_price:
+        program_text = (
+            f"{_clean(lead.program_title)} / {_clean(lead.program_date)} / {_clean(lead.program_price)}"
+        )
+    elif lead.program:
+        program = PROGRAM_LABELS.get(lead.program.value)
+        if program:
+            title, dates, price = program
+            program_text = f"{_clean(title)} / {_clean(dates)} / {_clean(price)}"
 
     lines = [
-        "<b>Новая заявка: летняя поездка в Китай</b>",
+        "<b>Новая заявка на тур в Китай</b>",
+        "<i>Клиент выбрал программу на сайте</i>",
         "",
-        f"<b>Форма:</b> {_clean(SOURCE_LABELS.get(lead.source.value, lead.source.value))}",
-        f"<b>Имя родителя:</b> {_clean(lead.parent_name)}",
-        f"<b>Телефон:</b> {_clean(lead.phone)}",
-        f"<b>Возраст ребенка:</b> {_clean(lead.child_age)}",
-        f"<b>Программа:</b> {program_text}",
-        f"<b>Страница:</b> {_clean(lead.page_url)}",
+        "<b>Тур</b>",
+        f"Название / даты / цена: <b>{program_text}</b>",
+        "",
+        "<b>Контакт</b>",
+        f"Родитель: <b>{_clean(lead.parent_name)}</b>",
+        f"Телефон: <code>{_clean(lead.phone)}</code>",
+        f"Возраст ребенка: <b>{_clean(lead.child_age)}</b>",
+        "",
+        "<b>Источник</b>",
+        f"Форма: {_clean(SOURCE_LABELS.get(lead.source.value, lead.source.value))}",
+        f"Страница: {_clean(lead.page_url)}",
     ]
     return "\n".join(lines)
 
@@ -60,6 +71,10 @@ async def send_lead_notification(lead: Lead) -> bool:
     }
 
     async with httpx.AsyncClient(timeout=settings.telegram_timeout_seconds) as client:
-        response = await client.post(url, json=payload)
+        response = await client.post(
+            url,
+            content=json.dumps(payload, ensure_ascii=False).encode("utf-8"),
+            headers={"Content-Type": "application/json; charset=utf-8"},
+        )
         response.raise_for_status()
     return True

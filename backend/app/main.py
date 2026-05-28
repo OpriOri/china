@@ -12,7 +12,10 @@ from app.core.rate_limit import limiter
 def create_app() -> FastAPI:
     app = FastAPI(
         title=settings.app_name,
-        description="API for applications to ROBBO educational summer trips to China.",
+        description=(
+            "API for ROBBO China tour bookings: validates parent contacts, child age, "
+            "selected tour details, stores the lead, and optionally sends a Telegram notification."
+        ),
         debug=settings.debug,
     )
     app.state.limiter = limiter

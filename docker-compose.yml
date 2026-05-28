@@ -1,4 +1,4 @@
-name: controlix
+name: china-landing
 
 services:
   db:
@@ -16,7 +16,7 @@ services:
       start_period: 10s
 
   backend:
-    image: ${BACKEND_IMAGE:-ghcr.io/opriori/controlix-backend}:${IMAGE_TAG:-latest}
+    image: ${BACKEND_IMAGE}:${IMAGE_TAG:-latest}
     restart: always
     env_file:
       - ./backend/.env
@@ -36,7 +36,7 @@ services:
       start_period: 20s
 
   frontend:
-    image: ${FRONTEND_IMAGE:-ghcr.io/opriori/controlix-frontend}:${IMAGE_TAG:-latest}
+    image: ${FRONTEND_IMAGE}:${IMAGE_TAG:-latest}
     restart: always
     ports:
       - "127.0.0.1:${FRONTEND_PORT:-3000}:80"

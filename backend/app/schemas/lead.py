@@ -20,6 +20,9 @@ class LeadCreate(BaseModel):
     phone: str = Field(min_length=10, max_length=32, description="Russian contact phone number")
     child_age: int = Field(ge=7, le=17, description="Child age at the time of travel")
     program: TripProgram
+    program_title: str = Field(min_length=2, max_length=120, description="Selected tour title shown to the client")
+    program_date: str = Field(min_length=2, max_length=80, description="Selected tour dates shown to the client")
+    program_price: str = Field(min_length=2, max_length=80, description="Selected tour price shown to the client")
     consent: bool = Field(description="Consent to personal data processing")
     page_url: AnyHttpUrl | None = Field(default=None, max_length=500)
 
@@ -39,6 +42,14 @@ class LeadCreate(BaseModel):
             raise ValueError("phone must be a Russian number in +7 format")
         return value.strip()
 
+    @field_validator("program_title", "program_date", "program_price")
+    @classmethod
+    def normalize_program_snapshot(cls, value: str) -> str:
+        normalized = " ".join(value.strip().split())
+        if len(normalized) < 2:
+            raise ValueError("selected program details are required")
+        return normalized
+
     @field_validator("consent")
     @classmethod
     def require_consent(cls, value: bool) -> bool:
@@ -57,6 +68,9 @@ class LeadRead(BaseModel):
     phone: str
     child_age: int | None
     program: TripProgram | None
+    program_title: str | None
+    program_date: str | None
+    program_price: str | None
     consent: bool
     page_url: AnyHttpUrl | None
     created_at: datetime
