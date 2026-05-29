@@ -28,10 +28,8 @@ export type Program = {
   tag: string;
   urgency: string;
   cta: string;
-  price: string;
-  previousPrice: string | null;
-  priceLabel: string;
-  flightPrice: string;
+  statusLabel?: string;
+  registrationClosed?: boolean;
   format: string;
   accommodation: string;
   image: string;
@@ -58,12 +56,10 @@ export const programs: Program[] = [
     title: "Сиань",
     date: "14-26 июня",
     tag: "Язык + культура + история",
-    urgency: "Ближайшая поездка: горящий тур с самым коротким сроком до вылета.",
-    cta: "Забронировать горящий тур",
-    price: "230 000 ₽",
-    previousPrice: null,
-    priceLabel: "стоимость программы",
-    flightPrice: "78 850 ₽",
+    urgency: "Регистрация на эту программу закрыта.",
+    cta: "Регистрация закрыта",
+    statusLabel: "Регистрация закрыта",
+    registrationClosed: true,
     format: "Обучение китайскому языку в Государственном лингвистическом университете Сианя и культурная программа.",
     accommodation: "Двухместное размещение в отеле недалеко от университета, завтрак включен.",
     image: routeXian,
@@ -86,11 +82,7 @@ export const programs: Program[] = [
     date: "11-25 июля",
     tag: "Технологии + университеты + будущее",
     urgency: "Для семьи, которой важны университеты, технологии и Шанхай.",
-    cta: "Забронировать место",
-    price: "230 000 ₽",
-    previousPrice: null,
-    priceLabel: "стоимость программы",
-    flightPrice: "75 000 ₽",
+    cta: "Оставить заявку",
     format: "Обучение в Технологическом университете Нанкина и двухдневная поездка в Шанхай.",
     accommodation: "Двухместное размещение в охраняемом кампусе университета; в Шанхае - отель по программе.",
     image: routeNanjing,
@@ -113,11 +105,7 @@ export const programs: Program[] = [
     date: "11-25 августа",
     tag: "Природа + путешествие + впечатления",
     urgency: "Самый экспедиционный маршрут: города, река Янцзы и горные парки.",
-    cta: "Забронировать место",
-    price: "186 500 ₽",
-    previousPrice: null,
-    priceLabel: "стоимость программы",
-    flightPrice: "79 650 ₽",
+    cta: "Оставить заявку",
     format: "Экспедиционный маршрут без университетского обучения: Чунцин, круиз через Три ущелья и парки Чжанцзяцзе.",
     accommodation: "Отель 4* с завтраком и двухместные каюты с видом на реку на круизном лайнере.",
     image: routeChongqing,
@@ -204,6 +192,8 @@ export const gallery = [
   routeNanjing,
 ];
 
+export const availablePrograms = programs.filter((program) => !program.registrationClosed);
+
 export const testimonials = [
   {
     author: "Марианна",
@@ -231,10 +221,15 @@ export const testimonials = [
   },
 ];
 
-export const heroWords = ["Образовательные", "Интересные", "Нескучные", "Вдохновляющие"];
+export const heroWords = ["Образовательные", "Интересные", "Познавательные", "Вдохновляющие"];
+
+export function getDefaultProgram() {
+  return availablePrograms[0] ?? programs[0];
+}
 
 export function getProgramById(programId: ProgramId | null | undefined) {
-  return programs.find((item) => item.id === programId) ?? programs[0];
+  const program = programs.find((item) => item.id === programId);
+  return program && !program.registrationClosed ? program : getDefaultProgram();
 }
 
 export function isProgramId(value: string | null): value is ProgramId {

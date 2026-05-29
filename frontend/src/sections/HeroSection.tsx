@@ -16,7 +16,7 @@ export function HeroSection({ typedWord, selectedProgramId }: { typedWord: strin
           <span className="typed-word" aria-hidden="true">{typedWord}</span>
           <span className="sr-only">Образовательные</span>
           <span className="hero-title__route">Поездки в <em>Китай</em></span>
-          <small>для детей и подростков</small>
+          <small>для детей/подростков, а также их родителей</small>
         </h1>
         <p>
           Не языковой лагерь, а первая международная экспедиция ребенка:

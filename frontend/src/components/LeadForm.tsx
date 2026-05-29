@@ -2,9 +2,10 @@ import { ArrowRight } from "lucide-react";
 import { FormEvent, useEffect, useState } from "react";
 import type { CSSProperties } from "react";
 import {
+  availablePrograms,
+  getDefaultProgram,
   getProgramById,
   images,
-  programs,
   selectedProgramStorageKey,
 } from "../data/siteData";
 import type { ProgramId } from "../data/siteData";
@@ -24,8 +25,8 @@ export function LeadForm({
   const [state, setState] = useState<SubmitState>("idle");
   const [error, setError] = useState("");
   const [phone, setPhone] = useState("");
-  const [programId, setProgramId] = useState<ProgramId>(selectedProgramId ?? programs[0].id);
-  const countdown = useCountdown("2026-06-14T09:00:00+03:00");
+  const [programId, setProgramId] = useState<ProgramId>(getProgramById(selectedProgramId ?? getDefaultProgram().id).id);
+  const countdown = useCountdown("2026-07-11T09:00:00+03:00");
 
   function formatPhone(value: string) {
     const digits = value.replace(/\D/g, "");
@@ -33,42 +34,35 @@ export function LeadForm({
       return "";
     }
 
-    const normalized = digits.startsWith("8") ? `7${digits.slice(1)}` : digits;
-    const country = normalized.startsWith("7") ? "+7" : `+${normalized.slice(0, 1)}`;
-    const local = normalized.startsWith("7") ? normalized.slice(1) : normalized.slice(1);
+    const localDigits = (digits.startsWith("7") || digits.startsWith("8") ? digits.slice(1) : digits).slice(0, 10);
+    const part1 = localDigits.slice(0, 3);
+    const part2 = localDigits.slice(3, 6);
+    const part3 = localDigits.slice(6, 8);
+    const part4 = localDigits.slice(8, 10);
+    let result = "+7";
 
-    if (normalized.startsWith("7")) {
-      const part1 = local.slice(0, 3);
-      const part2 = local.slice(3, 6);
-      const part3 = local.slice(6, 8);
-      const part4 = local.slice(8, 10);
-      let result = country;
-
-      if (part1) {
-        result += ` (${part1}`;
-      }
-      if (part1 && part1.length === 3) {
-        result += ")";
-      }
-      if (part2) {
-        result += ` ${part2}`;
-      }
-      if (part3) {
-        result += `-${part3}`;
-      }
-      if (part4) {
-        result += `-${part4}`;
-      }
-
-      return result;
+    if (part1) {
+      result += ` (${part1}`;
+    }
+    if (part1.length === 3) {
+      result += ")";
+    }
+    if (part2) {
+      result += ` ${part2}`;
+    }
+    if (part3) {
+      result += `-${part3}`;
+    }
+    if (part4) {
+      result += `-${part4}`;
     }
 
-    return `+${normalized}`;
+    return result;
   }
 
   useEffect(() => {
     if (selectedProgramId) {
-      setProgramId(selectedProgramId);
+      setProgramId(getProgramById(selectedProgramId).id);
     }
   }, [selectedProgramId]);
 
@@ -94,11 +88,11 @@ export function LeadForm({
       source: compact ? "hero" : "request",
       parent_name: String(form.get("name") || ""),
       phone: String(form.get("phone") || ""),
+      email: String(form.get("email") || ""),
       child_age: Number(form.get("age")),
       program: selectedProgram.id,
       program_title: selectedProgram.title,
       program_date: selectedProgram.date,
-      program_price: selectedProgram.price,
       consent,
       page_url: window.location.href,
     };
@@ -156,9 +150,14 @@ export function LeadForm({
             inputMode="tel"
             placeholder="+7 (999) 123-45-67"
             autoComplete="tel"
+            maxLength={18}
             value={phone}
             onChange={(event) => setPhone(formatPhone(event.target.value))}
           />
+        </label>
+        <label>
+          <span>Почта</span>
+          <input name="email" required type="email" placeholder="mail@example.com" autoComplete="email" />
         </label>
         <label>
           <span>Возраст ребенка</span>
@@ -167,7 +166,7 @@ export function LeadForm({
         <label>
           <span>Интересующая программа</span>
           <select value={programId} onChange={(event) => setProgramId(event.target.value as ProgramId)}>
-            {programs.map((item) => (
+            {availablePrograms.map((item) => (
               <option key={item.id} value={item.id}>
                 {item.title}
               </option>

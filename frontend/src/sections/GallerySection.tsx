@@ -15,8 +15,8 @@ export function GallerySection() {
           <img key={`${image}-${index}`} className={index === 0 ? "gallery-wide" : ""} src={image} alt="" />
         ))}
       </div>
-      <a className="secondary-button" href="/presentation.pdf" target="_blank" rel="noreferrer">
-        <ImageIcon size={18} /> Получить презентацию
+      <a className="secondary-button" href="#request">
+        <ImageIcon size={18} /> Запросить презентацию
       </a>
     </section>
   );

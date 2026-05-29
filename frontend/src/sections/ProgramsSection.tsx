@@ -27,7 +27,7 @@ export function ProgramsSection({
                 <div className="program-card__image">
                   <img src={program.image} alt={program.title} />
                   <span>{program.date}</span>
-                  {index === 0 && <mark>Горящий тур</mark>}
+                  {program.statusLabel && <mark>{program.statusLabel}</mark>}
                   <div>
                     <small>Глава {String(index + 1).padStart(2, "0")}</small>
                     <h3>{program.title}</h3>
@@ -41,16 +41,20 @@ export function ProgramsSection({
                   ))}
                 </ul>
                 <footer>
-                  <div className="program-price">
-                    {program.previousPrice && <del>{program.previousPrice}</del>}
-                    <small>{program.priceLabel}</small>
-                    <strong>{program.price}</strong>
+                  <div className="program-terms">
+                    <small>{program.registrationClosed ? "набор завершён" : "условия участия"}</small>
+                    <strong>{program.registrationClosed ? "Регистрация закрыта" : "По запросу"}</strong>
                   </div>
                   <div className="program-actions">
                     <button type="button" className="program-link" onClick={() => toggleProgramDetails(program.id)}>
                       Подробнее <ArrowRight size={16} />
                     </button>
-                    <button type="button" className="program-book" onClick={() => openBooking(program.id)}>
+                    <button
+                      type="button"
+                      className="program-book"
+                      disabled={program.registrationClosed}
+                      onClick={() => !program.registrationClosed && openBooking(program.id)}
+                    >
                       {program.cta}
                     </button>
                   </div>
@@ -60,18 +64,22 @@ export function ProgramsSection({
                 <button type="button" className="program-close" aria-label="Закрыть подробности" onClick={() => toggleProgramDetails(program.id)}>
                   <X size={18} />
                 </button>
-                <small>{program.date} / {program.price}</small>
+                <small>{program.date}</small>
                 <h3>{program.title}</h3>
                 <p><strong>Формат:</strong> {program.format}</p>
                 <p><strong>Размещение:</strong> {program.accommodation}</p>
-                <p><strong>Авиаперелет:</strong> {program.flightPrice} / человек</p>
                 <ul>
                   {program.highlights.map((highlight) => (
                     <li key={highlight}><CheckCircle2 size={17} />{highlight}</li>
                   ))}
                 </ul>
-                <button type="button" className="program-book" onClick={() => openBooking(program.id)}>
-                  Забронировать этот тур
+                <button
+                  type="button"
+                  className="program-book"
+                  disabled={program.registrationClosed}
+                  onClick={() => !program.registrationClosed && openBooking(program.id)}
+                >
+                  {program.registrationClosed ? "Регистрация закрыта" : "Оставить заявку"}
                 </button>
               </div>
             </div>
@@ -94,14 +102,13 @@ export function ProgramsSection({
                 <strong>{program.title}</strong>
                 <small>{program.date}</small>
               </div>
-              <span>{program.price}</span>
+              <span>{program.registrationClosed ? "закрыто" : "по запросу"}</span>
               <ChevronDown size={18} />
             </summary>
             <div className="route-detail__body">
               <div className="route-facts">
                 <p><strong>Формат</strong>{program.format}</p>
                 <p><strong>Размещение</strong>{program.accommodation}</p>
-                <p><strong>Авиаперелет отдельно</strong>{program.flightPrice} / человек</p>
               </div>
               <div className="route-highlights">
                 <h4>В программе</h4>

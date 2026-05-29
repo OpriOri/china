@@ -4,8 +4,8 @@ import { SiteFooter } from "./components/SiteFooter";
 import { SiteHeader } from "./components/SiteHeader";
 import {
   heroWords,
+  getDefaultProgram,
   isProgramId,
-  programs,
   selectedProgramStorageKey,
 } from "./data/siteData";
 import type { ProgramId } from "./data/siteData";
@@ -26,7 +26,7 @@ export function App() {
   const typedWord = useTypedWord(heroWords);
   const [menuOpen, setMenuOpen] = useState(false);
   const [bookingOpen, setBookingOpen] = useState(false);
-  const [selectedProgramId, setSelectedProgramId] = useState<ProgramId>(programs[0].id);
+  const [selectedProgramId, setSelectedProgramId] = useState<ProgramId>(getDefaultProgram().id);
   const [flippedProgramIds, setFlippedProgramIds] = useState<ProgramId[]>([]);
 
   useRevealOnScroll();

@@ -22,7 +22,7 @@ export function BookingModal({
         <div className="booking-modal__summary">
           <span>Выбранный тур</span>
           <h2 id="booking-title">{selectedProgram.title}</h2>
-          <p>{selectedProgram.date} / {selectedProgram.price}</p>
+          <p>{selectedProgram.date}. Подробные условия пришлем после заявки.</p>
         </div>
         <LeadForm compact selectedProgramId={selectedProgramId} />
       </div>
