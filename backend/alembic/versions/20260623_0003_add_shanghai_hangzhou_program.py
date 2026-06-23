@@ -1,7 +1,7 @@
 """add Shanghai and Hangzhou trip program
 
 Revision ID: 20260623_0003
-Revises: 20260527_0002
+Revises: 20260527_0003
 Create Date: 2026-06-23
 """
 from collections.abc import Sequence
@@ -9,7 +9,7 @@ from collections.abc import Sequence
 from alembic import op
 
 revision: str = "20260623_0003"
-down_revision: str | None = "20260527_0002"
+down_revision: str | None = "20260527_0003"
 branch_labels: str | Sequence[str] | None = None
 depends_on: str | Sequence[str] | None = None
 

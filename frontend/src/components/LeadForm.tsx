@@ -1,4 +1,16 @@
-import { ArrowRight } from "lucide-react";
+import {
+  ArrowRight,
+  Camera,
+  Check,
+  Compass,
+  GraduationCap,
+  Mail,
+  MapPin,
+  Phone,
+  Rocket,
+  UserRound,
+  UsersRound,
+} from "lucide-react";
 import { FormEvent, useEffect, useState } from "react";
 import type { CSSProperties } from "react";
 import {
@@ -12,6 +24,25 @@ import type { ProgramId } from "../data/siteData";
 import { useCountdown } from "../hooks/useCountdown";
 
 type SubmitState = "idle" | "sending" | "success" | "error";
+type InterestId = "technology" | "education" | "impressions" | "choosing";
+
+const interests: Array<{
+  id: InterestId;
+  label: string;
+  icon: typeof Rocket;
+  programId?: ProgramId;
+}> = [
+  { id: "technology", label: "Технологии и будущее", icon: Rocket, programId: "nanjing-shanghai" },
+  { id: "education", label: "Образование и развитие", icon: GraduationCap, programId: "nanjing-shanghai" },
+  { id: "impressions", label: "Новые впечатления", icon: Camera, programId: "chongqing-yangtze" },
+  { id: "choosing", label: "Пока выбираем", icon: Compass },
+];
+
+function getInterestForProgram(programId: ProgramId): InterestId {
+  if (programId === "chongqing-yangtze") return "impressions";
+  if (programId === "nanjing-shanghai") return "technology";
+  return "choosing";
+}
 
 export function LeadForm({
   compact = false,
@@ -25,9 +56,22 @@ export function LeadForm({
   const [state, setState] = useState<SubmitState>("idle");
   const [error, setError] = useState("");
   const [phone, setPhone] = useState("");
+  const initialProgram = getProgramById(selectedProgramId ?? getDefaultProgram().id);
+  const [interestId, setInterestId] = useState<InterestId>(getInterestForProgram(initialProgram.id));
   const [programId, setProgramId] = useState<ProgramId>(getProgramById(selectedProgramId ?? getDefaultProgram().id).id);
-  const countdown = useCountdown("2026-07-11T09:00:00+03:00");
+  const upcomingProgram = availablePrograms.find((program) => new Date(program.startDate).getTime() > Date.now());
+  const countdown = useCountdown(
+    upcomingProgram?.startDate
+      ?? availablePrograms[availablePrograms.length - 1]?.startDate
+      ?? "2026-10-04T09:00:00+03:00",
+  );
 
+  function selectInterest(nextInterestId: InterestId, recommendedProgramId?: ProgramId) {
+    setInterestId(nextInterestId);
+    if (recommendedProgramId) {
+      setProgramId(recommendedProgramId);
+    }
+  }
   function formatPhone(value: string) {
     const digits = value.replace(/\D/g, "");
     if (!digits) {
@@ -63,6 +107,7 @@ export function LeadForm({
   useEffect(() => {
     if (selectedProgramId) {
       setProgramId(getProgramById(selectedProgramId).id);
+      setInterestId(getInterestForProgram(selectedProgramId));
     }
   }, [selectedProgramId]);
 
@@ -93,6 +138,7 @@ export function LeadForm({
       program: selectedProgram.id,
       program_title: selectedProgram.title,
       program_date: selectedProgram.date,
+      interest: interestId,
       consent,
       page_url: window.location.href,
     };
@@ -126,64 +172,103 @@ export function LeadForm({
       style={compact ? ({ "--form-bg": `url("${images.formBg}")` } as CSSProperties) : undefined}
       onSubmit={submit}
     >
-      {compact && <span className="form-kicker">Персональная консультация</span>}
-      <h2>Получить программу и забронировать место</h2>
-      {compact && (
-        <div className="hero-offer">
-          <span>До первой поездки</span>
-          <strong>
-            {countdown.days} дн. {countdown.hours} ч. {countdown.minutes} мин.
-          </strong>
-          <small>Получите подробную программу и условия участия</small>
+      <div className="form-panel">
+        <div className="form-intro">
+          <span className="form-kicker">Подберем маршрут под интересы ребенка</span>
+          <h2>Получите программу поездки, ответив на <em>1 вопрос</em></h2>
+          <p>Что сейчас важнее для вашего ребенка?</p>
         </div>
-      )}
-      <div className="form-grid">
-        <label>
-          <span>Имя родителя</span>
-          <input name="name" required minLength={2} placeholder="Анна Иванова" autoComplete="name" />
+
+        <div className="interest-options" role="group" aria-label="Что важно для ребенка">
+          {interests.map((interest) => {
+            const Icon = interest.icon;
+            const selected = interest.id === interestId;
+            return (
+              <button
+                className={selected ? "is-selected" : ""}
+                key={interest.id}
+                type="button"
+                aria-pressed={selected}
+                onClick={() => selectInterest(interest.id, interest.programId)}
+              >
+                <span className="interest-icon"><Icon size={24} /></span>
+                <strong>{interest.label}</strong>
+                {selected && <Check className="interest-check" size={14} />}
+              </button>
+            );
+          })}
+        </div>
+
+        {upcomingProgram && (
+          <div className="form-urgency">
+            <div>
+              <span>До ближайшей программы</span>
+              <strong>{upcomingProgram.title} · {upcomingProgram.date}</strong>
+            </div>
+            <time dateTime={upcomingProgram.startDate}>
+              <b>{countdown.days}</b> дн. <b>{countdown.hours}</b> ч. <b>{countdown.minutes}</b> мин.
+            </time>
+          </div>
+        )}
+
+        <div className="form-grid">
+          <label className="form-field form-field--wide">
+            <UserRound size={20} />
+            <span className="sr-only">Имя родителя</span>
+            <input name="name" required minLength={2} placeholder="Имя родителя" autoComplete="name" />
+          </label>
+          <label className="form-field form-field--wide">
+            <Phone size={20} />
+            <span className="sr-only">Телефон</span>
+            <input
+              name="phone"
+              required
+              inputMode="tel"
+              placeholder="+7 (999) 123-45-67"
+              autoComplete="tel"
+              maxLength={18}
+              value={phone}
+              onChange={(event) => setPhone(formatPhone(event.target.value))}
+            />
+          </label>
+          <label className="form-field form-field--wide">
+            <Mail size={20} />
+            <span className="sr-only">Электронная почта</span>
+            <input name="email" required type="email" placeholder="E-mail" autoComplete="email" />
+          </label>
+          <label className="form-field">
+            <UsersRound size={20} />
+            <span className="sr-only">Возраст ребенка</span>
+            <select name="age" required defaultValue="">
+              <option value="" disabled>Возраст ребенка</option>
+              {Array.from({ length: 11 }, (_, index) => index + 7).map((age) => (
+                <option key={age} value={age}>{age} лет</option>
+              ))}
+            </select>
+          </label>
+          <label className="form-field">
+            <MapPin size={20} />
+            <span className="sr-only">Интересующая программа</span>
+            <select name="program" value={programId} onChange={(event) => setProgramId(event.target.value as ProgramId)}>
+              {availablePrograms.map((item) => (
+                <option key={item.id} value={item.id}>{item.title}</option>
+              ))}
+            </select>
+          </label>
+        </div>
+        <label className="consent">
+          <input name="consent" type="checkbox" required />
+          <span>Согласен на обработку персональных данных</span>
         </label>
-        <label>
-          <span>Телефон</span>
-          <input
-            name="phone"
-            required
-            inputMode="tel"
-            placeholder="+7 (999) 123-45-67"
-            autoComplete="tel"
-            maxLength={18}
-            value={phone}
-            onChange={(event) => setPhone(formatPhone(event.target.value))}
-          />
-        </label>
-        <label>
-          <span>Почта</span>
-          <input name="email" required type="email" placeholder="mail@example.com" autoComplete="email" />
-        </label>
-        <label>
-          <span>Возраст ребенка</span>
-          <input name="age" required type="number" min={7} max={17} placeholder="12" />
-        </label>
-        <label>
-          <span>Интересующая программа</span>
-          <select value={programId} onChange={(event) => setProgramId(event.target.value as ProgramId)}>
-            {availablePrograms.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.title}
-              </option>
-            ))}
-          </select>
-        </label>
+        <button className="primary-button" type="submit" disabled={state === "sending"}>
+          {state === "sending" ? "Отправляем..." : "Получить программу поездки"}
+          <ArrowRight size={21} />
+        </button>
+        <small className="form-footnote">Без оплаты и обязательств — куратор поможет определиться.</small>
+        {state === "success" && <p className="form-message form-message--success">Готово! Куратор свяжется с вами и пришлет материалы по выбранной поездке.</p>}
+        {state === "error" && <p className="form-message">{error}</p>}
       </div>
-      <label className="consent">
-        <input name="consent" type="checkbox" required defaultChecked />
-        <span>Я согласен на обработку персональных данных</span>
-      </label>
-      <button className="primary-button" type="submit" disabled={state === "sending"}>
-        {state === "sending" ? "Отправляем..." : "Получить программу"}
-        <ArrowRight size={18} />
-      </button>
-      {state === "success" && <p className="form-message form-message--success">Заявка отправлена. Куратор скоро свяжется с вами.</p>}
-      {state === "error" && <p className="form-message">{error}</p>}
+      <div className="form-route-strip"><MapPin size={18} /> Нанкин <i /> Шанхай <i /> Янцзы <i /> Чжанцзяцзе <i /> Ханчжоу</div>
     </form>
   );
 }

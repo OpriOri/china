@@ -1,4 +1,6 @@
 import { Menu, X } from "lucide-react";
+import maxLogo from "../../chinaassets/maxlogo.jpg";
+import telegramLogo from "../../chinaassets/telegramlogo.webp";
 
 export function SiteHeader({
   menuOpen,
@@ -14,7 +16,7 @@ export function SiteHeader({
       <header className={`site-header ${menuOpen ? "menu-is-open" : ""}`}>
         <a className="brand" href="#top" aria-label="РОББО">
           <strong>РОББО</strong>
-          <span>суверенная образовательная платформа для детей</span>
+          <span>образовательные путешествия для детей</span>
         </a>
         <nav id="site-nav" className={menuOpen ? "is-open" : ""}>
           <a href="#programs" onClick={closeMenu}>Программы</a>
@@ -22,9 +24,23 @@ export function SiteHeader({
           <a href="#process" onClick={closeMenu}>Как устроено</a>
           <a href="#terms" onClick={closeMenu}>Условия</a>
           <a href="#faq" onClick={closeMenu}>FAQ</a>
+          <div className="nav-socials">
+            <a href="https://t.me/kitaysky_zarechye" target="_blank" rel="noreferrer" onClick={closeMenu}>Telegram</a>
+            <a href="https://max.ru/id5032358711_biz" target="_blank" rel="noreferrer" onClick={closeMenu}>MAX</a>
+          </div>
         </nav>
-        <a className="site-phone" href="tel:+79039755050" onClick={closeMenu}>+7 (903) 975-50-50</a>
-        <a className="header-button" href="#request" onClick={closeMenu}>Записаться</a>
+        <div className="header-contacts">
+          <div className="header-socials" aria-label="Наши каналы">
+            <a href="https://t.me/kitaysky_zarechye" target="_blank" rel="noreferrer" aria-label="РОББО в Telegram">
+              <img src={telegramLogo} alt="" />
+            </a>
+            <a href="https://max.ru/id5032358711_biz" target="_blank" rel="noreferrer" aria-label="РОББО в MAX">
+              <img src={maxLogo} alt="" />
+            </a>
+          </div>
+          <a className="site-phone" href="tel:+79039755050" onClick={closeMenu}>+7 (903) 975-50-50</a>
+        </div>
+        <a className="header-button" href="#request" onClick={closeMenu}>Получить программу</a>
         <button
           className="icon-button"
           aria-controls="site-nav"

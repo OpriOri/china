@@ -15,9 +15,9 @@ export function ProgramsSection({
   return (
     <section className="section section--programs atmosphere atmosphere--warm reveal" id="programs">
       <SectionHeading
-        eyebrow="Три главы лета"
-        title="Выберите Китай, который увидит ваш ребенок"
-        text="История, технологии или большая природная экспедиция: каждая программа имеет свой характер."
+        eyebrow="Поездки в Китай в 2026 году"
+        title="Три маршрута — три разных путешествия"
+        text="Университеты и технологии, круиз по Янцзы и горные парки или неделя между Шанхаем и Ханчжоу. Сравните программы и выберите ту, которая увлечёт вашего ребёнка."
       />
       <div className="program-grid reveal-grid">
         {programs.map((program, index) => (
@@ -43,7 +43,7 @@ export function ProgramsSection({
                 <footer>
                   <div className="program-terms">
                     <small>{program.registrationClosed ? "набор завершён" : "условия участия"}</small>
-                    <strong>{program.registrationClosed ? "Регистрация закрыта" : "По запросу"}</strong>
+                    <strong>{program.registrationClosed ? "Регистрация закрыта" : "Уточнить у куратора"}</strong>
                   </div>
                   <div className="program-actions">
                     <button type="button" className="program-link" onClick={() => toggleProgramDetails(program.id)}>
@@ -88,12 +88,12 @@ export function ProgramsSection({
       </div>
       <div className="program-note">
         <span><Users size={24} /> Группы до 20 человек</span>
-        <span><Plane size={24} /> Перелет одним рейсом Air China</span>
+        <span><Plane size={24} /> Организованный групповой перелёт</span>
       </div>
       <div className="route-details">
         <div className="route-details__heading">
           <span>Подробная программа</span>
-          <h3>Что ребенок увидит и как будет жить</h3>
+          <h3>Что увидит ребёнок и как пройдёт поездка</h3>
         </div>
         {programs.map((program) => (
           <details className="route-detail" key={`${program.id}-detail`}>

@@ -6,8 +6,8 @@ export function TermsSection() {
     <section className="section testimonials travel-terms atmosphere atmosphere--dark reveal" id="terms">
       <SectionHeading
         eyebrow="Условия участия"
-        title="Что важно знать до выбора программы"
-        text="Условия приведены по информационной программе поездок: возраст, состав группы и организация перелета."
+        title="Кому подходят образовательные туры в Китай"
+        text="Основные условия участия: возраст ребёнка, формат сопровождения, размер группы и организация дороги. Детали зависят от выбранной программы."
       />
       <div className="terms-grid reveal-grid">
         {travelTerms.map(([title, text], index) => (

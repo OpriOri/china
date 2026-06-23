@@ -56,6 +56,7 @@ class Lead(Base):
     program_title: Mapped[str | None] = mapped_column(String(120))
     program_date: Mapped[str | None] = mapped_column(String(80))
     program_price: Mapped[str | None] = mapped_column(String(80))
+    interest: Mapped[str | None] = mapped_column(String(40))
     consent: Mapped[bool] = mapped_column(nullable=False, default=False, server_default="false")
 
     page_url: Mapped[str | None] = mapped_column(String(500))

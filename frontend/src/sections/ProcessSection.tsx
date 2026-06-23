@@ -7,9 +7,9 @@ export function ProcessSection() {
     <section className="section process-section atmosphere atmosphere--mist reveal" id="process">
       <div className="process-layout">
         <SectionHeading
-          eyebrow="Как проходит поездка"
-          title="У ребенка - открытие. У родителей - спокойствие"
-          text="До вылета познакомим группу и родителей. На месте каждый день проходит с педагогами и кураторами."
+          eyebrow="Организация и сопровождение"
+          title="Ребёнку — открытия. Родителям — спокойствие"
+          text="До вылета знакомим участников и родителей, помогаем с подготовкой и документами. В Китае группа проходит маршрут вместе с педагогами, кураторами и местными гидами."
         />
         <div className="timeline reveal-grid">
           {timeline.map(([title, text], index) => (
@@ -23,10 +23,10 @@ export function ProcessSection() {
         </div>
       </div>
       <div className="safety-strip">
-        <strong>Безопасность - часть маршрута</strong>
+        <strong>Безопасность — часть маршрута</strong>
         <span><ShieldCheck /> Забота 24/7</span>
         <span><Users /> Педагоги и кураторы</span>
-        <span><HeartHandshake /> Проверенные партнеры</span>
+        <span><HeartHandshake /> Гиды и принимающая сторона</span>
       </div>
     </section>
   );

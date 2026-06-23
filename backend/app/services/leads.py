@@ -23,6 +23,7 @@ async def create_lead(
         program=payload.program,
         program_title=payload.program_title,
         program_date=payload.program_date,
+        interest=payload.interest.value,
         consent=payload.consent,
         page_url=str(payload.page_url) if payload.page_url else None,
         user_agent=user_agent[:500] if user_agent else None,

@@ -22,6 +22,13 @@ PROGRAM_LABELS = {
     "shanghai-hangzhou": ("Шанхай + Ханчжоу", "4-10 октября"),
 }
 
+INTEREST_LABELS = {
+    "technology": "Технологии и будущее",
+    "education": "Образование и развитие",
+    "impressions": "Новые впечатления",
+    "choosing": "Пока выбирают",
+}
+
 
 def _clean(value: object) -> str:
     return escape(str(value)) if value not in (None, "") else "-"
@@ -43,6 +50,7 @@ def build_lead_message(lead: Lead) -> str:
         "",
         "<b>Тур</b>",
         f"Название / даты: <b>{program_text}</b>",
+        f"Что важно: <b>{_clean(INTEREST_LABELS.get(lead.interest, lead.interest))}</b>",
         "",
         "<b>Контакт</b>",
         f"Родитель: <b>{_clean(lead.parent_name)}</b>",

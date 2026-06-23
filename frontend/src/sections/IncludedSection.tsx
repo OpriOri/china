@@ -5,9 +5,9 @@ export function IncludedSection() {
   return (
     <section className="section included-section atmosphere atmosphere--paper reveal">
       <SectionHeading
-        eyebrow="Что входит в программу"
-        title="Все для комфортного и безопасного путешествия"
-        text="Мы берем на себя организацию, обучение, проживание, питание и насыщенную программу."
+        eyebrow="Что предусмотрено в поездке"
+        title="Организация маршрута от встречи группы до возвращения"
+        text="Проживание, питание, переезды, экскурсии и сопровождение зависят от выбранного тура. Точный состав программы куратор пришлёт после заявки."
       />
       <div className="included-grid reveal-grid">
         {included.map(([title, text, Icon]) => (
@@ -18,7 +18,7 @@ export function IncludedSection() {
           </article>
         ))}
       </div>
-      <div className="flight-note">Подробные условия участия и презентацию пришлем после заявки.</div>
+      <div className="flight-note">Оставьте заявку — пришлём программу по дням и подробно разберём условия выбранного маршрута.</div>
     </section>
   );
 }

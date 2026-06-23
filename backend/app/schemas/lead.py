@@ -12,6 +12,13 @@ class LeadFormSource(str, enum.Enum):
     request = "request"
 
 
+class LeadInterest(str, enum.Enum):
+    technology = "technology"
+    education = "education"
+    impressions = "impressions"
+    choosing = "choosing"
+
+
 class LeadCreate(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
@@ -23,6 +30,7 @@ class LeadCreate(BaseModel):
     program: TripProgram
     program_title: str = Field(min_length=2, max_length=120, description="Selected tour title shown to the client")
     program_date: str = Field(min_length=2, max_length=80, description="Selected tour dates shown to the client")
+    interest: LeadInterest = Field(description="What matters most to the parent for the child")
     consent: bool = Field(description="Consent to personal data processing")
     page_url: AnyHttpUrl | None = Field(default=None, max_length=500)
 
@@ -78,6 +86,7 @@ class LeadRead(BaseModel):
     program: TripProgram | None
     program_title: str | None
     program_date: str | None
+    interest: LeadInterest | None
     consent: bool
     page_url: AnyHttpUrl | None
     created_at: datetime
@@ -87,4 +96,3 @@ class LeadCreateResponse(BaseModel):
     id: UUID
     status: LeadStatus
     message: str = "lead accepted"
-

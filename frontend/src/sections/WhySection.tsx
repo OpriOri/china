@@ -1,20 +1,26 @@
 import { SectionHeading } from "../components/SectionHeading";
-import { reasons, routeImages } from "../data/siteData";
+import { images, reasons } from "../data/siteData";
 
 export function WhySection() {
   return (
     <section className="section section--light atmosphere atmosphere--paper reveal" id="why">
       <div className="why-layout">
-        <SectionHeading
-          eyebrow="Почему Китай сейчас"
-          title="Путешествие, после которого мир становится больше"
-          text="Ребенок не читает про Китай в презентации, а оказывается внутри языка, кампусов, мегаполисов и истории."
-        />
+        <div className="why-copy">
+          <SectionHeading
+            eyebrow="Зачем ребенку Китай"
+            title="Поездка, которая превращает интерес в личный опыт"
+            text="Не смотреть на Китай со стороны, а прожить его: увидеть мегаполисы и университеты, познакомиться с культурой, попробовать себя в новой среде и вернуться увереннее."
+          />
+          <div className="why-action">
+            <span>Для детей и подростков 7–17 лет</span>
+            <a href="#programs">Выбрать маршрут <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
         <div className="why-visual">
-          <img src={routeImages[1]} alt="Современный городской пейзаж Китая" />
+          <img src={images.whyImage} alt="Подросток смотрит на вечерний Шанхай с высоты" />
           <div className="why-caption">
-            <strong>Нанкин + Шанхай</strong>
-            <span>университет / NIO / мегаполис</span>
+            <strong>Увидеть своими глазами</strong>
+            <span>мегаполисы / культура / новый масштаб</span>
           </div>
         </div>
       </div>
@@ -30,8 +36,8 @@ export function WhySection() {
         ))}
       </div>
       <blockquote>
-        <span>Образовательная экспедиция</span>
-        Утром - занятия в кампусе. Вечером - город, о котором ребенок будет рассказывать дома.
+        <span>Главный результат поездки</span>
+        Ребёнок возвращается не только с фотографиями, но и с ощущением: большой мир открыт, понятен и полон возможностей.
       </blockquote>
     </section>
   );

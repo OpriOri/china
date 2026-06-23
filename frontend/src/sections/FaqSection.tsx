@@ -5,7 +5,11 @@ import { faqs } from "../data/siteData";
 export function FaqSection() {
   return (
     <section className="section faq-section atmosphere atmosphere--mist reveal" id="faq">
-      <SectionHeading eyebrow="Вопросы родителей" title="Отвечаем на важные вопросы" />
+      <SectionHeading
+        eyebrow="Вопросы родителей"
+        title="Что важно знать перед поездкой в Китай"
+        text="Возраст участников, знание языка, сопровождение, документы и связь с группой."
+      />
       <div className="faq-list">
         {faqs.map(([question, answer, Icon, character]) => (
           <article className="faq-row" key={question}>

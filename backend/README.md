@@ -38,6 +38,7 @@ Content-Type: application/json
   "program": "nanjing-shanghai",
   "program_title": "Нанкин + Шанхай",
   "program_date": "11-25 июля",
+  "interest": "technology",
   "consent": true,
   "page_url": "http://localhost:8080/"
 }

@@ -14,6 +14,7 @@ def lead_payload(**overrides):
         "program": "nanjing-shanghai",
         "program_title": "Нанкин + Шанхай",
         "program_date": "11-25 июля",
+        "interest": "technology",
         "consent": True,
         "page_url": "http://localhost:8080/",
     }
@@ -39,6 +40,7 @@ async def test_create_lead_saves_payload(client, db_session):
     assert lead.program.value == "nanjing-shanghai"
     assert lead.program_title == "Нанкин + Шанхай"
     assert lead.program_date == "11-25 июля"
+    assert lead.interest == "technology"
     assert lead.program_price is None
     assert lead.consent is True
 
@@ -92,6 +94,12 @@ async def test_create_lead_requires_consent(client):
     assert response.status_code == 422
 
 
+async def test_create_lead_rejects_unknown_interest(client):
+    response = await client.post("/api/v1/leads", json=lead_payload(interest="cheap-price"))
+
+    assert response.status_code == 422
+
+
 async def test_telegram_message_keeps_russian_text(client, db_session):
     await client.post("/api/v1/leads", json=lead_payload())
 
@@ -103,6 +111,7 @@ async def test_telegram_message_keeps_russian_text(client, db_session):
     assert "Нанкин + Шанхай" in message
     assert "Форма на первом экране" in message
     assert "Возраст ребенка: <b>12</b>" in message
+    assert "Что важно: <b>Технологии и будущее</b>" in message
     assert "<b>Тур</b>" in message
     assert "<code>+7 (909) 386-55-54</code>" in message
     assert "<code>parent@example.com</code>" in message

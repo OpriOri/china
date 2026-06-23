@@ -1,20 +1,43 @@
-import { Headphones, ShieldCheck, Users } from "lucide-react";
+import { Camera, GraduationCap, Globe2, Headphones, ShieldCheck, TrainFront, Users } from "lucide-react";
 import { LeadForm } from "../components/LeadForm";
 import { images } from "../data/siteData";
 import type { ProgramId } from "../data/siteData";
+import maxLogo from "../../chinaassets/maxlogo.jpg";
+import telegramLogo from "../../chinaassets/telegramlogo.webp";
 
 export function FinalCtaSection({ selectedProgramId }: { selectedProgramId: ProgramId }) {
   return (
     <section className="final-cta reveal" id="request" style={{ backgroundImage: `url(${images.heroBg})` }}>
       <div className="final-cta__intro">
-        <span className="eyebrow">Станьте частью путешествия</span>
-        <h2>Дайте ребенку увидеть <em>Китай</em> своими глазами</h2>
-        <p>Оставьте заявку - пришлем подробную программу и ответим на вопросы.</p>
+        <span className="eyebrow">Подберите поездку для ребёнка</span>
+        <h2>Получите программу тура в <em>Китай</em></h2>
+        <p>Ответьте на один вопрос — куратор предложит подходящий маршрут, пришлёт программу по дням и расскажет об условиях участия.</p>
         <div className="trust-row">
           <span><Users /> Небольшие группы</span>
           <span><ShieldCheck /> Опытные педагоги</span>
           <span><Headphones /> Поддержка 24/7</span>
         </div>
+        <aside className="social-subscribe" aria-labelledby="social-subscribe-title">
+          <div className="social-subscribe__intro">
+            <span>Оставайтесь на связи</span>
+            <h3 id="social-subscribe-title">Следите за новыми программами</h3>
+            <p>Подпишитесь на наши каналы и первыми узнавайте о новых поездках, образовательных маршрутах и наборах групп.</p>
+          </div>
+          <ul>
+            <li><Camera size={18} /> Фотоотчёты из поездок</li>
+            <li><GraduationCap size={18} /> Университеты и технологии Китая</li>
+            <li><TrainFront size={18} /> Скоростные поезда и современные города</li>
+            <li><Globe2 size={18} /> Новые маршруты и программы</li>
+          </ul>
+          <div className="social-subscribe__actions">
+            <a href="https://t.me/kitaysky_zarechye" target="_blank" rel="noreferrer">
+              <img src={telegramLogo} alt="" /> Telegram
+            </a>
+            <a href="https://max.ru/id5032358711_biz" target="_blank" rel="noreferrer">
+              <img src={maxLogo} alt="" /> MAX
+            </a>
+          </div>
+        </aside>
       </div>
       <LeadForm compact selectedProgramId={selectedProgramId} />
     </section>
