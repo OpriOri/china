@@ -9,11 +9,11 @@ def lead_payload(**overrides):
         "source": "hero",
         "parent_name": "Ирина Петрова",
         "phone": "+7 (909) 386-55-54",
+        "email": "parent@example.com",
         "child_age": 12,
         "program": "nanjing-shanghai",
         "program_title": "Нанкин + Шанхай",
         "program_date": "11-25 июля",
-        "program_price": "230 000 ₽",
         "consent": True,
         "page_url": "http://localhost:8080/",
     }
@@ -34,11 +34,12 @@ async def test_create_lead_saves_payload(client, db_session):
     assert lead.source == LeadSource.hero
     assert lead.parent_name == "Ирина Петрова"
     assert lead.phone == "+7 (909) 386-55-54"
+    assert lead.email == "parent@example.com"
     assert lead.child_age == 12
     assert lead.program.value == "nanjing-shanghai"
     assert lead.program_title == "Нанкин + Шанхай"
     assert lead.program_date == "11-25 июля"
-    assert lead.program_price == "230 000 ₽"
+    assert lead.program_price is None
     assert lead.consent is True
 
 
@@ -63,6 +64,28 @@ async def test_create_lead_requires_supported_child_age(client):
     assert response.status_code == 422
 
 
+async def test_create_lead_rejects_closed_program(client):
+    response = await client.post(
+        "/api/v1/leads",
+        json=lead_payload(program="xian", program_title="Сиань", program_date="14-26 июня"),
+    )
+
+    assert response.status_code == 422
+
+
+async def test_create_lead_accepts_shanghai_hangzhou(client):
+    response = await client.post(
+        "/api/v1/leads",
+        json=lead_payload(
+            program="shanghai-hangzhou",
+            program_title="Шанхай + Ханчжоу",
+            program_date="4-10 октября",
+        ),
+    )
+
+    assert response.status_code == 201
+
+
 async def test_create_lead_requires_consent(client):
     response = await client.post("/api/v1/leads", json=lead_payload(consent=False))
 
@@ -82,6 +105,7 @@ async def test_telegram_message_keeps_russian_text(client, db_session):
     assert "Возраст ребенка: <b>12</b>" in message
     assert "<b>Тур</b>" in message
     assert "<code>+7 (909) 386-55-54</code>" in message
+    assert "<code>parent@example.com</code>" in message
 
 
 async def test_telegram_error_does_not_persist_bot_token(client, db_session, monkeypatch):

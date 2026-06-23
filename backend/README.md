@@ -33,11 +33,11 @@ Content-Type: application/json
   "source": "hero",
   "parent_name": "Анна Иванова",
   "phone": "+7 (999) 123-45-67",
+  "email": "parent@example.com",
   "child_age": 12,
-  "program": "xian",
-  "program_title": "Сиань",
-  "program_date": "14-26 июня",
-  "program_price": "230 000 ₽",
+  "program": "nanjing-shanghai",
+  "program_title": "Нанкин + Шанхай",
+  "program_date": "11-25 июля",
   "consent": true,
   "page_url": "http://localhost:8080/"
 }
@@ -47,13 +47,14 @@ Allowed form sources: `hero`, `request`.
 
 Allowed programs:
 
-- `xian`
 - `nanjing-shanghai`
 - `chongqing-yangtze`
 
-The API accepts applications for children aged `7-17` and rejects unknown input fields.
-The frontend sends the selected tour snapshot (`program_title`, `program_date`,
-`program_price`) so the saved lead and Telegram notification match the client choice.
+The `xian` program is closed for registration. The API accepts applications for
+children aged `7-17` and rejects unknown input fields.
+The frontend sends the selected tour snapshot (`program_title`, `program_date`) so
+the saved lead and Telegram notification match the client choice. Financial terms
+are not exposed in the form payload.
 
 ## Docker
 

@@ -14,12 +14,13 @@ import formBg from "../../chinaassets/ChatGPT Image 26 мая 2026 г., 14_42_37
 import routeXian from "../../chinaassets/china1 in pricing section.webp";
 import routeNanjing from "../../chinaassets/china2 in pricing section.webp";
 import routeChongqing from "../../chinaassets/china3 in pricing section.webp";
+import routeShanghaiHangzhou from "../../chinaassets/shanghai-hangzhou.jpg";
 import frameImage from "../../chinaassets/ассет для рамки во второй секции.webp";
 import galleryOne from "../../chinaassets/for galery.webp";
 import galleryTwo from "../../chinaassets/for galery 1.webp";
 import galleryThree from "../../chinaassets/for galery 2.webp";
 
-export type ProgramId = "xian" | "nanjing-shanghai" | "chongqing-yangtze";
+export type ProgramId = "nanjing-shanghai" | "chongqing-yangtze" | "shanghai-hangzhou";
 
 export type Program = {
   id: ProgramId;
@@ -51,31 +52,6 @@ export const images = {
 export const routeImages = [routeXian, routeNanjing, routeChongqing];
 
 export const programs: Program[] = [
-  {
-    id: "xian",
-    title: "Сиань",
-    date: "14-26 июня",
-    tag: "Язык + культура + история",
-    urgency: "Регистрация на эту программу закрыта.",
-    cta: "Регистрация закрыта",
-    statusLabel: "Регистрация закрыта",
-    registrationClosed: true,
-    format: "Обучение китайскому языку в Государственном лингвистическом университете Сианя и культурная программа.",
-    accommodation: "Двухместное размещение в отеле недалеко от университета, завтрак включен.",
-    image: routeXian,
-    bullets: [
-      "Обучение в Лингвистическом Университете Сианя",
-      "Древняя столица Китая и улицы династии Тан",
-      "Музей терракотового войска",
-      "Театрализованное шоу и дегустации",
-    ],
-    highlights: [
-      "Большая пагода диких гусей и улица Великой династии Тан",
-      "Терракотовая армия - знаменитое «Восьмое чудо света»",
-      "Городская стена, Bell & Drum Tower и Мусульманский квартал",
-      "Музей Сианя, Малая пагода диких гусей и храм Дасиншань",
-    ],
-  },
   {
     id: "nanjing-shanghai",
     title: "Нанкин + Шанхай",
@@ -120,6 +96,29 @@ export const programs: Program[] = [
       "Круизный лайнер по Янцзы, ущелья Кутанг и Ву, плотина «Три ущелья»",
       "Юаньцзяцзе, гора Тяньцзы и вечернее шоу Impression Xiangxi",
       "Гора Тяньмэнь, канатная дорога, стеклянная тропа и скоростной поезд",
+    ],
+  },
+  {
+    id: "shanghai-hangzhou",
+    title: "Шанхай + Ханчжоу",
+    date: "4-10 октября",
+    tag: "Культура + технологии + открытия",
+    urgency: "Семь дней между мегаполисом, чайными традициями и современными технологиями.",
+    cta: "Оставить заявку",
+    format: "7-дневное образовательное путешествие по Шанхаю и Ханчжоу для подростков.",
+    accommodation: "Проживание в отелях Шанхая и Ханчжоу по программе маршрута.",
+    image: routeShanghaiHangzhou,
+    bullets: [
+      "Shanghai Tower, набережная Вайтань и прогулка по Хуанпу",
+      "Сады, музеи и арт-кварталы Шанхая",
+      "Чайные поля Лунцзин и штаб-квартира Alibaba",
+      "Полный день в Shanghai Disneyland",
+    ],
+    highlights: [
+      "Shanghai Tower, Nanjing Road и вечерняя прогулка по Хуанпу",
+      "Сад Юйюань, Шанхайский музей и творческий парк M50",
+      "Сбор и обжарка чая Лунцзин, Alibaba и прогулка по Западному озеру",
+      "Полный день в Shanghai Disneyland",
     ],
   },
 ];

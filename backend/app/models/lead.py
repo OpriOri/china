@@ -20,6 +20,7 @@ class TripProgram(str, enum.Enum):
     xian = "xian"
     nanjing_shanghai = "nanjing-shanghai"
     chongqing_yangtze = "chongqing-yangtze"
+    shanghai_hangzhou = "shanghai-hangzhou"
 
 
 class LeadStatus(str, enum.Enum):
@@ -46,6 +47,7 @@ class Lead(Base):
 
     parent_name: Mapped[str] = mapped_column(String(120), nullable=False)
     phone: Mapped[str] = mapped_column(String(32), nullable=False)
+    email: Mapped[str | None] = mapped_column(String(160))
     child_age: Mapped[int | None] = mapped_column(nullable=True)
     program: Mapped[TripProgram | None] = mapped_column(
         Enum(TripProgram, name="trip_program", values_callable=lambda values: [item.value for item in values]),

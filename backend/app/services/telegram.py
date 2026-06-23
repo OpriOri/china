@@ -16,9 +16,10 @@ SOURCE_LABELS = {
 }
 
 PROGRAM_LABELS = {
-    "xian": ("Сиань", "14-26 июня", "230 000 ₽"),
-    "nanjing-shanghai": ("Нанкин + Шанхай", "11-25 июля", "230 000 ₽"),
-    "chongqing-yangtze": ("Чунцин + Янцзы + Чжанцзяцзе", "11-25 августа", "186 500 ₽"),
+    "xian": ("Сиань", "14-26 июня"),
+    "nanjing-shanghai": ("Нанкин + Шанхай", "11-25 июля"),
+    "chongqing-yangtze": ("Чунцин + Янцзы + Чжанцзяцзе", "11-25 августа"),
+    "shanghai-hangzhou": ("Шанхай + Ханчжоу", "4-10 октября"),
 }
 
 
@@ -28,26 +29,25 @@ def _clean(value: object) -> str:
 
 def build_lead_message(lead: Lead) -> str:
     program_text = "-"
-    if lead.program_title or lead.program_date or lead.program_price:
-        program_text = (
-            f"{_clean(lead.program_title)} / {_clean(lead.program_date)} / {_clean(lead.program_price)}"
-        )
+    if lead.program_title or lead.program_date:
+        program_text = f"{_clean(lead.program_title)} / {_clean(lead.program_date)}"
     elif lead.program:
         program = PROGRAM_LABELS.get(lead.program.value)
         if program:
-            title, dates, price = program
-            program_text = f"{_clean(title)} / {_clean(dates)} / {_clean(price)}"
+            title, dates = program
+            program_text = f"{_clean(title)} / {_clean(dates)}"
 
     lines = [
         "<b>Новая заявка на тур в Китай</b>",
         "<i>Клиент выбрал программу на сайте</i>",
         "",
         "<b>Тур</b>",
-        f"Название / даты / цена: <b>{program_text}</b>",
+        f"Название / даты: <b>{program_text}</b>",
         "",
         "<b>Контакт</b>",
         f"Родитель: <b>{_clean(lead.parent_name)}</b>",
         f"Телефон: <code>{_clean(lead.phone)}</code>",
+        f"Почта: <code>{_clean(lead.email)}</code>",
         f"Возраст ребенка: <b>{_clean(lead.child_age)}</b>",
         "",
         "<b>Источник</b>",
