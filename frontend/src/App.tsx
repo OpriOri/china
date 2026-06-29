@@ -32,6 +32,32 @@ export function App() {
   useRevealOnScroll();
 
   useEffect(() => {
+    const scrollToCurrentHash = (behavior: ScrollBehavior) => {
+      const sectionId = decodeURIComponent(window.location.hash.replace("#", ""));
+      if (!sectionId) return;
+
+      const section = document.getElementById(sectionId);
+      if (!section) return;
+
+      window.requestAnimationFrame(() => {
+        section.scrollIntoView({ behavior, block: "start" });
+      });
+    };
+
+    const initialScrollTimeout = window.setTimeout(() => scrollToCurrentHash("auto"), 80);
+    const repeatInitialScrollTimeout = window.setTimeout(() => scrollToCurrentHash("auto"), 400);
+    const handleHashChange = () => scrollToCurrentHash("smooth");
+
+    window.addEventListener("hashchange", handleHashChange);
+
+    return () => {
+      window.clearTimeout(initialScrollTimeout);
+      window.clearTimeout(repeatInitialScrollTimeout);
+      window.removeEventListener("hashchange", handleHashChange);
+    };
+  }, []);
+
+  useEffect(() => {
     const storedProgram = window.localStorage.getItem(selectedProgramStorageKey);
     if (isProgramId(storedProgram)) {
       setSelectedProgramId(storedProgram);
