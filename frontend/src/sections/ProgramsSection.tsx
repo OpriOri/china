@@ -1,4 +1,4 @@
-import { ArrowRight, CheckCircle2, ChevronDown, Plane, Users, X } from "lucide-react";
+import { CheckCircle2, ChevronDown, Plane, Users, WalletCards, X } from "lucide-react";
 import { SectionHeading } from "../components/SectionHeading";
 import { chongqingDays, programs } from "../data/siteData";
 import type { ProgramId } from "../data/siteData";
@@ -21,7 +21,10 @@ export function ProgramsSection({
       />
       <div className="program-grid reveal-grid">
         {programs.map((program, index) => (
-          <article className={`program-card program-card--flip ${flippedProgramIds.includes(program.id) ? "is-flipped" : ""}`} key={program.id}>
+          <article
+            className={`program-card program-card--flip ${flippedProgramIds.includes(program.id) ? "is-flipped" : ""} ${program.registrationClosed ? "is-registration-closed" : ""}`}
+            key={program.id}
+          >
             <div className="program-card__inner">
               <div className="program-card__face program-card__face--front">
                 <div className="program-card__image">
@@ -40,14 +43,21 @@ export function ProgramsSection({
                     <li key={bullet}><CheckCircle2 size={18} />{bullet}</li>
                   ))}
                 </ul>
-                <footer>
-                  <div className="program-terms">
-                    <small>{program.registrationClosed ? "набор завершён" : "условия участия"}</small>
-                    <strong>{program.registrationClosed ? "Регистрация закрыта" : "Уточнить у куратора"}</strong>
+                <footer className="program-footer">
+                  <div className={`program-price ${program.registrationClosed ? "program-price--closed" : ""}`}>
+                    <WalletCards size={27} />
+                    <div>
+                      <strong>{program.registrationClosed ? "Регистрация закрыта" : "Стоимость: по запросу"}</strong>
+                      <span>
+                        {program.registrationClosed
+                          ? "Набор на эту поездку уже завершён."
+                          : "Перелёт, проживание и программа рассчитываются индивидуально."}
+                      </span>
+                    </div>
                   </div>
                   <div className="program-actions">
                     <button type="button" className="program-link" onClick={() => toggleProgramDetails(program.id)}>
-                      Подробнее <ArrowRight size={16} />
+                      Смотреть программу
                     </button>
                     <button
                       type="button"
@@ -55,7 +65,7 @@ export function ProgramsSection({
                       disabled={program.registrationClosed}
                       onClick={() => !program.registrationClosed && openBooking(program.id)}
                     >
-                      {program.cta}
+                      {program.registrationClosed ? "Регистрация закрыта" : "Получить стоимость"}
                     </button>
                   </div>
                 </footer>
