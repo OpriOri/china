@@ -16,8 +16,8 @@ export function ProgramsSection({
     <section className="section section--programs atmosphere atmosphere--warm reveal" id="programs">
       <SectionHeading
         eyebrow="Поездки в Китай в 2026 году"
-        title="Три маршрута — три разных путешествия"
-        text="Университеты и технологии, круиз по Янцзы и горные парки или неделя между Шанхаем и Ханчжоу. Сравните программы и выберите ту, которая увлечёт вашего ребёнка."
+        title="Набор открыт на октябрьскую поездку"
+        text="Группа на август уже набрана. Сейчас можно оставить заявку на неделю между Шанхаем и Ханчжоу — с мегаполисом, культурой, чайными традициями и современными технологиями."
       />
       <div className="program-grid reveal-grid">
         {programs.map((program, index) => (

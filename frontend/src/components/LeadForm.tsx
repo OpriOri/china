@@ -69,7 +69,7 @@ export function LeadForm({
   function selectInterest(nextInterestId: InterestId, recommendedProgramId?: ProgramId) {
     setInterestId(nextInterestId);
     if (recommendedProgramId) {
-      setProgramId(recommendedProgramId);
+      setProgramId(getProgramById(recommendedProgramId).id);
     }
   }
   function formatPhone(value: string) {
@@ -106,8 +106,9 @@ export function LeadForm({
 
   useEffect(() => {
     if (selectedProgramId) {
-      setProgramId(getProgramById(selectedProgramId).id);
-      setInterestId(getInterestForProgram(selectedProgramId));
+      const selectedProgram = getProgramById(selectedProgramId);
+      setProgramId(selectedProgram.id);
+      setInterestId(getInterestForProgram(selectedProgram.id));
     }
   }, [selectedProgramId]);
 

@@ -91,6 +91,8 @@ export function App() {
     setBookingOpen(true);
   };
 
+  const closeBooking = () => setBookingOpen(false);
+
   const toggleProgramDetails = (programId: ProgramId) => {
     setFlippedProgramIds((current) =>
       current.includes(programId)
@@ -125,7 +127,7 @@ export function App() {
       </main>
 
       {bookingOpen && (
-        <BookingModal selectedProgramId={selectedProgramId} onClose={() => setBookingOpen(false)} />
+        <BookingModal selectedProgramId={selectedProgramId} onClose={closeBooking} />
       )}
 
       <SiteFooter />
