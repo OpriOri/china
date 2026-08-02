@@ -34,11 +34,13 @@ export function BookingModal({
         <button className="booking-modal__close" type="button" aria-label="Закрыть бронь" onClick={onClose}>
           <X size={20} />
         </button>
-        <div className="booking-modal__heading">
-          <span>Заявка на поездку</span>
-          <h2 id="booking-title">{selectedProgram.title} · {selectedProgram.date}</h2>
+        <div className="booking-modal__scroll">
+          <div className="booking-modal__heading">
+            <span>Заявка на поездку</span>
+            <h2 id="booking-title">{selectedProgram.title} · {selectedProgram.date}</h2>
+          </div>
+          <LeadForm compact selectedProgramId={selectedProgramId} />
         </div>
-        <LeadForm compact selectedProgramId={selectedProgramId} />
       </div>
     </div>
   );

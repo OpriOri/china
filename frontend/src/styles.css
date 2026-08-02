@@ -3997,8 +3997,21 @@ body.menu-open {
   gap: 18px;
   grid-template-columns: minmax(0, 1fr);
   max-width: 780px;
-  padding: 26px;
+  overflow: hidden;
+  padding: 0;
   width: min(calc(100vw - 48px), 780px);
+}
+
+.booking-modal__scroll {
+  display: grid;
+  gap: 18px;
+  max-height: inherit;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 26px;
+  scrollbar-gutter: stable;
+  -webkit-overflow-scrolling: touch;
 }
 
 .booking-modal__panel .lead-form--compact,
@@ -4093,10 +4106,14 @@ body.booking-open {
 
   .booking-modal__panel {
     border-radius: 10px;
-    gap: 14px;
     max-height: calc(100dvh - 16px);
-    padding: 16px 10px 10px;
+    padding: 0;
     width: calc(100vw - 16px);
+  }
+
+  .booking-modal__scroll {
+    gap: 14px;
+    padding: 16px 10px 10px;
   }
 
   .booking-modal__close {
