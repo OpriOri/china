@@ -6405,4 +6405,20 @@ body.booking-open {
     font-size: 13px;
     line-height: 1.5;
   }
+
+  .program-highlight {
+    background-color: #fff;
+    background-clip: padding-box;
+    border-color: rgba(23, 68, 49, 0.18);
+    box-shadow: 0 10px 28px rgba(31, 38, 33, 0.1);
+    isolation: isolate;
+    -webkit-background-clip: padding-box;
+  }
+
+  .program-highlight > div {
+    background-color: #fff;
+    min-height: 100%;
+    position: relative;
+    z-index: 1;
+  }
 }
