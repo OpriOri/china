@@ -9,34 +9,34 @@ export function HeroSection({ typedWord, selectedProgramId }: { typedWord: strin
     <section className="hero" style={{ backgroundImage: `url(${images.heroBg})` }}>
       <div className="hero__content">
         <div className="hero-meta">
-          <span className="eyebrow">Образовательные туры 2026</span>
-          <span>Три маршрута по Китаю</span>
+          <span className="eyebrow">4–10 октября 2026</span>
+          <span>7 дней / 6 ночей · отели 4*</span>
         </div>
         <h1>
           <span className="typed-word" aria-hidden="true">{typedWord}</span>
-          <span className="sr-only">Образовательные туры в Китай</span>
-          <span className="hero-title__route">Туры в <em>Китай</em></span>
-          <small>для детей и подростков 7–17 лет</small>
+          <span className="sr-only">Образовательная поездка в Шанхай и Ханчжоу</span>
+          <span className="hero-title__route"><em>Шанхай</em> + Ханчжоу</span>
+          <small>для школьников и родителей</small>
         </h1>
         <p>
-          Нанкин и Шанхай, круиз по Янцзы и горы Чжанцзяцзе или Шанхай и Ханчжоу —
-          с насыщенной программой, сопровождением и заботой на всём маршруте
+          От панорамы Шанхая и крупнейшего астрономического музея мира до чайных
+          плантаций Лунцзина, Alibaba, собственного AI-агента и дня в Disneyland.
         </p>
         <div className="stats">
-          <AnimatedStat value={20} prefix="до " label="человек в группе" />
-          <AnimatedStat value={2} label="сопровождающих" />
-          <AnimatedStat value={3} label="маршрута на выбор" />
+          <AnimatedStat value={7} label="дней программы" />
+          <AnimatedStat value={2} label="города Китая" />
+          <AnimatedStat value={1} label="собственный AI-проект" />
           <AnimatedStat value={24} suffix="/7" label="связь с кураторами" />
         </div>
         <a className="primary-button hero-button" href="#programs">
-          Выбрать маршрут <ArrowRight size={18} />
+          Посмотреть программу <ArrowRight size={18} />
         </a>
-        <div className="journey-line" aria-label="Маршруты: Нанкин, Шанхай, Янцзы, Чжанцзяцзе, Ханчжоу">
-          <span>Нанкин</span>
+        <div className="journey-line" aria-label="Маршрут: Шанхай, Ханчжоу, Лунцзин, Alibaba, Disneyland">
           <span>Шанхай</span>
-          <span>Янцзы</span>
-          <span>Чжанцзяцзе</span>
           <span>Ханчжоу</span>
+          <span>Лунцзин</span>
+          <span>Alibaba</span>
+          <span>Disneyland</span>
         </div>
       </div>
       <LeadForm compact selectedProgramId={selectedProgramId} />

@@ -9,9 +9,9 @@ export function FinalCtaSection({ selectedProgramId }: { selectedProgramId: Prog
   return (
     <section className="final-cta reveal" id="request" style={{ backgroundImage: `url(${images.heroBg})` }}>
       <div className="final-cta__intro">
-        <span className="eyebrow">Подберите поездку для ребёнка</span>
-        <h2>Получите программу тура в <em>Китай</em></h2>
-        <p>Ответьте на один вопрос — куратор предложит подходящий маршрут, пришлёт программу по дням и расскажет об условиях участия.</p>
+        <span className="eyebrow">Шанхай и Ханчжоу · 4–10 октября</span>
+        <h2>Получите полную программу <em>поездки</em></h2>
+        <p>Ответьте на один вопрос — куратор пришлёт программу по дням, расскажет об условиях участия и поможет подготовиться к путешествию.</p>
         <div className="trust-row">
           <span><Users /> Небольшие группы</span>
           <span><ShieldCheck /> Опытные педагоги</span>
@@ -31,7 +31,7 @@ export function FinalCtaSection({ selectedProgramId }: { selectedProgramId: Prog
           </ul>
           <div className="social-subscribe__actions">
             <a href="https://t.me/kitaysky_zarechye" target="_blank" rel="noreferrer">
-              <img src={telegramLogo} alt="" /> Telegram
+              <img src={telegramLogo} alt="" /> Telegram · @kitaysky_zarechye
             </a>
             <a href="https://max.ru/id5032358711_biz" target="_blank" rel="noreferrer">
               <img src={maxLogo} alt="" /> MAX

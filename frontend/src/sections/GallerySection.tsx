@@ -1,14 +1,16 @@
 import { ImageIcon } from "lucide-react";
 import { SectionHeading } from "../components/SectionHeading";
 import { gallery } from "../data/siteData";
+import maxLogo from "../../chinaassets/maxlogo.jpg";
+import telegramLogo from "../../chinaassets/telegramlogo.webp";
 
 export function GallerySection() {
   return (
-    <section className="section gallery-section reveal">
+    <section className="section gallery-section reveal" id="media">
       <SectionHeading
-        eyebrow="Китай глазами участников"
-        title="Мегаполисы, кампусы и природные парки"
-        text="Не стоковая мечта о путешествии, а места и впечатления, из которых складываются наши образовательные маршруты по Китаю."
+        eyebrow="Китай, который участники увидят сами"
+        title="Мегаполис, чайные поля, технологии и большой финал"
+        text="Несколько ключевых мест октябрьской программы: от Шанхая и Лунцзина до Alibaba, астрономического музея и Disneyland. Больше материалов и живых отчётов публикуем в наших каналах."
       />
       <div className="gallery-grid reveal-grid">
         {gallery.map((image, index) => (
@@ -16,13 +18,19 @@ export function GallerySection() {
             key={`${image}-${index}`}
             className={index === 0 ? "gallery-wide" : ""}
             src={image}
-            alt={["Участники образовательной поездки в Китай", "Современный город Китая", "Природный маршрут по Китаю", "Культурная программа в Китае", "Нанкин и Шанхай"][index]}
+            alt={["Участники образовательной поездки в Китай", "Чайные плантации Лунцзина", "Кампус Alibaba в Ханчжоу", "Шанхайский астрономический музей", "Shanghai Disneyland"][index]}
           />
         ))}
       </div>
-      <a className="secondary-button" href="#request">
-        <ImageIcon size={18} /> Получить программу поездки
-      </a>
+      <div className="gallery-actions">
+        <a className="secondary-button" href="#request"><ImageIcon size={18} /> Получить программу поездки</a>
+        <a className="media-channel" href="https://t.me/kitaysky_zarechye" target="_blank" rel="noreferrer">
+          <img src={telegramLogo} alt="" /><span><strong>Telegram</strong><small>@kitaysky_zarechye</small></span>
+        </a>
+        <a className="media-channel" href="https://max.ru/id5032358711_biz" target="_blank" rel="noreferrer">
+          <img src={maxLogo} alt="" /><span><strong>MAX</strong><small>Новости и новые программы</small></span>
+        </a>
+      </div>
     </section>
   );
 }

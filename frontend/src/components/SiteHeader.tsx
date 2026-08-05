@@ -19,10 +19,10 @@ export function SiteHeader({
           <span>образовательные путешествия для детей</span>
         </a>
         <nav id="site-nav" className={menuOpen ? "is-open" : ""}>
-          <a href="#programs" onClick={closeMenu}>Программы</a>
+          <a href="#programs" onClick={closeMenu}>Поездка в октябре</a>
+          <a href="#october-route" onClick={closeMenu}>Программа по дням</a>
           <a href="#why" onClick={closeMenu}>Почему Китай</a>
-          <a href="#process" onClick={closeMenu}>Как устроено</a>
-          <a href="#terms" onClick={closeMenu}>Условия</a>
+          <a href="#media" onClick={closeMenu}>Фото и каналы</a>
           <a href="#faq" onClick={closeMenu}>FAQ</a>
           <div className="nav-socials">
             <a href="https://t.me/kitaysky_zarechye" target="_blank" rel="noreferrer" onClick={closeMenu}>Telegram</a>

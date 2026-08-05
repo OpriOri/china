@@ -1,146 +1,167 @@
-import { CheckCircle2, ChevronDown, Plane, Users, WalletCards, X } from "lucide-react";
+import {
+  ArrowRight,
+  BrainCircuit,
+  CheckCircle2,
+  Clock3,
+  Hotel,
+  Laptop,
+  MapPin,
+  Plane,
+  ShieldCheck,
+  Sparkles,
+  TrainFront,
+  Users,
+} from "lucide-react";
 import { SectionHeading } from "../components/SectionHeading";
-import { chongqingDays, programs } from "../data/siteData";
+import {
+  activeProgramHighlights,
+  activeProgramIncluded,
+  activeProgramMedia,
+  aiWorkshopSteps,
+  programs,
+  shanghaiHangzhouDays,
+} from "../data/siteData";
 import type { ProgramId } from "../data/siteData";
 
-export function ProgramsSection({
-  flippedProgramIds,
-  toggleProgramDetails,
-  openBooking,
-}: {
-  flippedProgramIds: ProgramId[];
-  toggleProgramDetails: (programId: ProgramId) => void;
-  openBooking: (programId: ProgramId) => void;
-}) {
+export function ProgramsSection({ openBooking }: { openBooking: (programId: ProgramId) => void }) {
+  const activeProgram = programs.find((program) => !program.registrationClosed) ?? programs[programs.length - 1];
+  const closedPrograms = programs.filter((program) => program.registrationClosed);
+
   return (
     <section className="section section--programs atmosphere atmosphere--warm reveal" id="programs">
       <SectionHeading
-        eyebrow="Поездки в Китай в 2026 году"
-        title="Набор открыт на октябрьскую поездку"
-        text="Группа на август уже набрана. Сейчас можно оставить заявку на неделю между Шанхаем и Ханчжоу — с мегаполисом, культурой, чайными традициями и современными технологиями."
+        eyebrow="Единственная открытая программа 2026"
+        title="Шанхай и Ханчжоу: от чайных плантаций до искусственного интеллекта"
+        text="За семь дней участники увидят две разные грани Китая: динамичный Шанхай и культурное сердце Ханчжоу. Современные технологии, традиции и яркие впечатления складываются в один понятный образовательный маршрут."
       />
-      <div className="program-grid reveal-grid">
-        {programs.map((program, index) => (
-          <article
-            className={`program-card program-card--flip ${flippedProgramIds.includes(program.id) ? "is-flipped" : ""} ${program.registrationClosed ? "is-registration-closed" : ""}`}
-            key={program.id}
-          >
-            <div className="program-card__inner">
-              <div className="program-card__face program-card__face--front">
-                <div className="program-card__image">
-                  <img src={program.image} alt={program.title} />
-                  <span>{program.date}</span>
-                  {program.statusLabel && <mark>{program.statusLabel}</mark>}
-                  <div>
-                    <small>Глава {String(index + 1).padStart(2, "0")}</small>
-                    <h3>{program.title}</h3>
-                    <p>{program.tag}</p>
-                  </div>
-                </div>
-                <p className="program-urgency">{program.urgency}</p>
-                <ul>
-                  {program.bullets.map((bullet) => (
-                    <li key={bullet}><CheckCircle2 size={18} />{bullet}</li>
-                  ))}
-                </ul>
-                <footer className="program-footer">
-                  <div className={`program-price ${program.registrationClosed ? "program-price--closed" : ""}`}>
-                    <WalletCards size={27} />
-                    <div>
-                      <strong>{program.registrationClosed ? "Регистрация закрыта" : "Стоимость: по запросу"}</strong>
-                      <span>
-                        {program.registrationClosed
-                          ? "Набор на эту поездку уже завершён."
-                          : "Перелёт, проживание и программа рассчитываются индивидуально."}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="program-actions">
-                    <button type="button" className="program-link" onClick={() => toggleProgramDetails(program.id)}>
-                      Смотреть программу
-                    </button>
-                    <button
-                      type="button"
-                      className="program-book"
-                      disabled={program.registrationClosed}
-                      onClick={() => !program.registrationClosed && openBooking(program.id)}
-                    >
-                      {program.registrationClosed ? "Регистрация закрыта" : "Получить стоимость"}
-                    </button>
-                  </div>
-                </footer>
-              </div>
-              <div className="program-card__face program-card__face--back">
-                <button type="button" className="program-close" aria-label="Закрыть подробности" onClick={() => toggleProgramDetails(program.id)}>
-                  <X size={18} />
-                </button>
-                <small>{program.date}</small>
-                <h3>{program.title}</h3>
-                <p><strong>Формат:</strong> {program.format}</p>
-                <p><strong>Размещение:</strong> {program.accommodation}</p>
-                <ul>
-                  {program.highlights.map((highlight) => (
-                    <li key={highlight}><CheckCircle2 size={17} />{highlight}</li>
-                  ))}
-                </ul>
-                <button
-                  type="button"
-                  className="program-book"
-                  disabled={program.registrationClosed}
-                  onClick={() => !program.registrationClosed && openBooking(program.id)}
-                >
-                  {program.registrationClosed ? "Регистрация закрыта" : "Оставить заявку"}
-                </button>
-              </div>
+
+      <article className="featured-program">
+        <div className="featured-program__visual">
+          <img src={activeProgramMedia.longjing} alt="Чайные плантации Лунцзина в Ханчжоу" />
+          <div className="featured-program__route">
+            <span>4–10 октября 2026</span>
+            <strong>Шанхай → Ханчжоу → Шанхай</strong>
+          </div>
+        </div>
+        <div className="featured-program__content">
+          <span className="featured-program__label">Набор открыт</span>
+          <h3>Образовательное путешествие для школьников и родителей</h3>
+          <p>{activeProgram.urgency}</p>
+          <div className="featured-program__facts">
+            <span><Clock3 /> <strong>7 дней</strong><small>6 ночей</small></span>
+            <span><MapPin /> <strong>2 города</strong><small>Шанхай и Ханчжоу</small></span>
+            <span><Hotel /> <strong>Отели 4*</strong><small>двухместное размещение</small></span>
+            <span><Users /> <strong>Дети и родители</strong><small>группа с сопровождением</small></span>
+          </div>
+          <div className="featured-program__actions">
+            <a className="secondary-button" href="#october-route">Посмотреть маршрут по дням</a>
+            <button className="primary-button" type="button" onClick={() => openBooking(activeProgram.id)}>
+              Получить полную программу <ArrowRight size={18} />
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <div className="program-highlight-grid reveal-grid" aria-label="Главные впечатления поездки">
+        {activeProgramHighlights.map(([title, text, image]) => (
+          <article className="program-highlight" key={title}>
+            <img src={image} alt="" />
+            <div>
+              <h3>{title}</h3>
+              <p>{text}</p>
             </div>
           </article>
         ))}
       </div>
-      <div className="program-note">
-        <span><Users size={24} /> Группы до 20 человек</span>
-        <span><Plane size={24} /> Организованный групповой перелёт</span>
-      </div>
-      <div className="route-details">
+
+      <div className="october-route" id="october-route">
         <div className="route-details__heading">
-          <span>Подробная программа</span>
-          <h3>Что увидит ребёнок и как пройдёт поездка</h3>
+          <span>4–10 октября · программа по дням</span>
+          <h3>Семь дней, которые легко представить заранее</h3>
+          <p>Каждый день имеет понятную тему: от первого знакомства с Шанхаем до собственного AI-проекта и большого финала в Disneyland.</p>
         </div>
-        {programs.map((program) => (
-          <details className="route-detail" key={`${program.id}-detail`}>
-            <summary>
-              <div>
-                <strong>{program.title}</strong>
-                <small>{program.date}</small>
+        <div className="october-route__timeline">
+          {shanghaiHangzhouDays.map((day) => (
+            <article className="october-day" key={day.day}>
+              <div className="october-day__number">{day.day}</div>
+              {"image" in day && day.image && <img src={day.image} alt="" />}
+              <div className="october-day__content">
+                <span>{day.date}</span>
+                <h4>{day.title}</h4>
+                <p>{day.summary}</p>
               </div>
-              <span>{program.registrationClosed ? "закрыто" : "по запросу"}</span>
-              <ChevronDown size={18} />
-            </summary>
-            <div className="route-detail__body">
-              <div className="route-facts">
-                <p><strong>Формат</strong>{program.format}</p>
-                <p><strong>Размещение</strong>{program.accommodation}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+
+      <article className="ai-workshop">
+        <div className="ai-workshop__visual">
+          <img src={activeProgramMedia.alibaba} alt="Кампус Alibaba в Ханчжоу" />
+          <span><BrainCircuit /> Центральный образовательный акцент</span>
+        </div>
+        <div className="ai-workshop__content">
+          <span className="eyebrow">Практикум в Alibaba</span>
+          <h3>AI-агент своими руками</h3>
+          <p>Участники пройдут путь от идеи до работающего помощника: поймут базовые принципы современных языковых моделей, соберут собственного AI-агента и представят результат группе.</p>
+          <ol>
+            {aiWorkshopSteps.map(([title, text], index) => (
+              <li key={title}>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <div><strong>{title}</strong><p>{text}</p></div>
+              </li>
+            ))}
+          </ol>
+          <aside><Laptop /> Для участия в практикуме понадобится ноутбук Windows или Mac.</aside>
+        </div>
+      </article>
+
+      <div className="active-program-included">
+        <div>
+          <span className="eyebrow">Условия участия</span>
+          <h3>Что входит в программу</h3>
+          <p>Куратор пришлёт полные условия после заявки и ответит на вопросы по участию.</p>
+        </div>
+        <ul>
+          {activeProgramIncluded.map((item) => <li key={item}><CheckCircle2 />{item}</li>)}
+        </ul>
+        <button className="primary-button" type="button" onClick={() => openBooking(activeProgram.id)}>
+          Оставить заявку <ArrowRight size={18} />
+        </button>
+      </div>
+
+      <div className="program-note">
+        <span><ShieldCheck size={24} /> Сопровождение на всём маршруте</span>
+        <span><TrainFront size={24} /> Скоростной поезд между городами</span>
+        <span><Plane size={24} /> Организованная дорога группы</span>
+        <span><Sparkles size={24} /> Практика, культура и впечатления</span>
+      </div>
+
+      <div className="closed-programs">
+        <div className="closed-programs__heading">
+          <span>Архив программ</span>
+          <h3>Набор на эти поездки закрыт</h3>
+          <p>Маршруты остаются на странице как примеры образовательных путешествий, которые мы организуем.</p>
+        </div>
+        <div className="closed-programs__grid">
+          {closedPrograms.map((program) => (
+            <article className="closed-program" key={program.id}>
+              <div className="closed-program__image">
+                <img src={program.image} alt={program.title} />
+                <mark>Закрыто</mark>
               </div>
-              <div className="route-highlights">
-                <h4>В программе</h4>
-                <ul>
-                  {program.highlights.map((highlight) => (
-                    <li key={highlight}><CheckCircle2 size={17} />{highlight}</li>
-                  ))}
-                </ul>
+              <div className="closed-program__content">
+                <span>{program.date}</span>
+                <h4>{program.title}</h4>
+                <p>{program.tag}</p>
+                <details>
+                  <summary>Что входило в маршрут</summary>
+                  <ul>{program.highlights.map((item) => <li key={item}>{item}</li>)}</ul>
+                </details>
               </div>
-              {program.id === "chongqing-yangtze" && (
-                <div className="day-plan">
-                  <h4>Маршрут по дням</h4>
-                  <ol>
-                    {chongqingDays.map((day, dayIndex) => (
-                      <li key={day}><span>{String(dayIndex + 1).padStart(2, "0")}</span>{day}</li>
-                    ))}
-                  </ol>
-                </div>
-              )}
-            </div>
-          </details>
-        ))}
+            </article>
+          ))}
+        </div>
       </div>
     </section>
   );

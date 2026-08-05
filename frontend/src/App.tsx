@@ -27,7 +27,6 @@ export function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [bookingOpen, setBookingOpen] = useState(false);
   const [selectedProgramId, setSelectedProgramId] = useState<ProgramId>(getDefaultProgram().id);
-  const [flippedProgramIds, setFlippedProgramIds] = useState<ProgramId[]>([]);
 
   useRevealOnScroll();
 
@@ -93,14 +92,6 @@ export function App() {
 
   const closeBooking = () => setBookingOpen(false);
 
-  const toggleProgramDetails = (programId: ProgramId) => {
-    setFlippedProgramIds((current) =>
-      current.includes(programId)
-        ? current.filter((item) => item !== programId)
-        : [...current, programId],
-    );
-  };
-
   return (
     <>
       <SiteHeader
@@ -112,11 +103,7 @@ export function App() {
       <main id="top">
         <HeroSection typedWord={typedWord} selectedProgramId={selectedProgramId} />
         <WhySection />
-        <ProgramsSection
-          flippedProgramIds={flippedProgramIds}
-          toggleProgramDetails={toggleProgramDetails}
-          openBooking={openBooking}
-        />
+        <ProgramsSection openBooking={openBooking} />
         <ProcessSection />
         <GallerySection />
         <TestimonialsSection />

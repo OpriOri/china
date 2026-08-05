@@ -269,7 +269,7 @@ export function LeadForm({
         {state === "success" && <p className="form-message form-message--success">Готово! Куратор свяжется с вами и пришлет материалы по выбранной поездке.</p>}
         {state === "error" && <p className="form-message">{error}</p>}
       </div>
-      <div className="form-route-strip"><MapPin size={18} /> Нанкин <i /> Шанхай <i /> Янцзы <i /> Чжанцзяцзе <i /> Ханчжоу</div>
+      <div className="form-route-strip"><MapPin size={18} /> Шанхай <i /> Ханчжоу <i /> Лунцзин <i /> Alibaba <i /> Disneyland</div>
     </form>
   );
 }
