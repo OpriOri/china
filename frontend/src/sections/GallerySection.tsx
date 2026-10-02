@@ -23,7 +23,7 @@ export function GallerySection() {
         ))}
       </div>
       <div className="gallery-actions">
-        <a className="secondary-button" href="#request"><ImageIcon size={18} /> Получить программу поездки</a>
+        <a className="secondary-button" href="#october-route"><ImageIcon size={18} /> Посмотреть программу по дням</a>
         <a className="media-channel" href="https://t.me/kitaysky_zarechye" target="_blank" rel="noreferrer">
           <img src={telegramLogo} alt="" /><span><strong>Telegram</strong><small>@kitaysky_zarechye</small></span>
         </a>

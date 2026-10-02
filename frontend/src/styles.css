@@ -6422,3 +6422,99 @@ body.booking-open {
     z-index: 1;
   }
 }
+
+/* Closed registration: keep the route visible without a booking form. */
+.hero {
+  grid-template-columns: minmax(0, 690px) minmax(300px, 440px);
+  min-height: 0;
+}
+
+.hero-closed-card {
+  align-self: center;
+  background: rgba(255, 252, 246, 0.96);
+  border: 1px solid rgba(23, 68, 49, 0.16);
+  border-radius: 22px;
+  box-shadow: 0 22px 55px rgba(23, 38, 28, 0.14);
+  padding: clamp(24px, 3vw, 40px);
+}
+
+.hero-closed-card > span {
+  color: #a83b2f;
+  display: block;
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.hero-closed-card h2 {
+  font-size: clamp(29px, 2.8vw, 40px);
+  line-height: 1.08;
+  margin: 14px 0;
+}
+
+.hero-closed-card p {
+  color: #536159;
+  line-height: 1.55;
+  margin: 0 0 24px;
+}
+
+.hero-closed-card .secondary-button {
+  box-sizing: border-box;
+  justify-content: center;
+  width: 100%;
+}
+
+.final-cta {
+  align-items: center;
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.final-cta__home {
+  white-space: nowrap;
+}
+
+@media (max-width: 1180px) {
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hero-closed-card {
+    max-width: 620px;
+  }
+}
+
+@media (max-width: 720px) {
+  .site-header {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+  }
+
+  .site-header .header-button {
+    display: inline-flex;
+    font-size: 12px;
+    min-height: 38px;
+    min-width: 0;
+    padding: 0 10px;
+    white-space: nowrap;
+  }
+
+  .hero {
+    gap: 18px;
+  }
+
+  .hero-closed-card {
+    padding: 20px;
+  }
+
+  .hero-closed-card h2 {
+    font-size: 29px;
+  }
+
+  .final-cta {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .final-cta__home {
+    justify-self: start;
+  }
+}

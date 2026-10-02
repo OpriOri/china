@@ -1,5 +1,4 @@
 import {
-  ArrowRight,
   BrainCircuit,
   CheckCircle2,
   Clock3,
@@ -21,16 +20,14 @@ import {
   programs,
   shanghaiHangzhouDays,
 } from "../data/siteData";
-import type { ProgramId } from "../data/siteData";
 
-export function ProgramsSection({ openBooking }: { openBooking: (programId: ProgramId) => void }) {
-  const activeProgram = programs.find((program) => !program.registrationClosed) ?? programs[programs.length - 1];
-  const closedPrograms = programs.filter((program) => program.registrationClosed);
+export function ProgramsSection() {
+  const closedPrograms = programs.filter((program) => program.registrationClosed && program.id !== "shanghai-hangzhou");
 
   return (
     <section className="section section--programs atmosphere atmosphere--warm reveal" id="programs">
       <SectionHeading
-        eyebrow="Единственная открытая программа 2026"
+        eyebrow="Программа 4–10 октября 2026 · набор закрыт"
         title="Шанхай и Ханчжоу: от чайных плантаций до искусственного интеллекта"
         text="За семь дней участники увидят две разные грани Китая: динамичный Шанхай и культурное сердце Ханчжоу. Современные технологии, традиции и яркие впечатления складываются в один понятный образовательный маршрут."
       />
@@ -44,9 +41,9 @@ export function ProgramsSection({ openBooking }: { openBooking: (programId: Prog
           </div>
         </div>
         <div className="featured-program__content">
-          <span className="featured-program__label">Набор открыт</span>
+          <span className="featured-program__label">Набор закрыт</span>
           <h3>Образовательное путешествие для школьников и родителей</h3>
-          <p>{activeProgram.urgency}</p>
+          <p>Регистрация на поездку завершена. Оставили маршрут на сайте, чтобы вы могли познакомиться с форматом наших образовательных путешествий.</p>
           <div className="featured-program__facts">
             <span><Clock3 /> <strong>7 дней</strong><small>6 ночей</small></span>
             <span><MapPin /> <strong>2 города</strong><small>Шанхай и Ханчжоу</small></span>
@@ -55,9 +52,7 @@ export function ProgramsSection({ openBooking }: { openBooking: (programId: Prog
           </div>
           <div className="featured-program__actions">
             <a className="secondary-button" href="#october-route">Посмотреть маршрут по дням</a>
-            <button className="primary-button" type="button" onClick={() => openBooking(activeProgram.id)}>
-              Получить полную программу <ArrowRight size={18} />
-            </button>
+            <a className="primary-button" href="https://hochuvseznat.club">Назад на сайт</a>
           </div>
         </div>
       </article>
@@ -120,14 +115,12 @@ export function ProgramsSection({ openBooking }: { openBooking: (programId: Prog
         <div>
           <span className="eyebrow">Условия участия</span>
           <h3>Что входит в программу</h3>
-          <p>Куратор пришлёт полные условия после заявки и ответит на вопросы по участию.</p>
+          <p>Регистрация закрыта. Здесь показан состав октябрьской программы для знакомства с форматом поездки.</p>
         </div>
         <ul>
           {activeProgramIncluded.map((item) => <li key={item}><CheckCircle2 />{item}</li>)}
         </ul>
-        <button className="primary-button" type="button" onClick={() => openBooking(activeProgram.id)}>
-          Оставить заявку <ArrowRight size={18} />
-        </button>
+        <a className="primary-button" href="https://hochuvseznat.club">Назад на сайт</a>
       </div>
 
       <div className="program-note">

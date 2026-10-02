@@ -1,17 +1,15 @@
 import { Camera, GraduationCap, Globe2, Headphones, ShieldCheck, TrainFront, Users } from "lucide-react";
-import { LeadForm } from "../components/LeadForm";
 import { images } from "../data/siteData";
-import type { ProgramId } from "../data/siteData";
 import maxLogo from "../../chinaassets/maxlogo.jpg";
 import telegramLogo from "../../chinaassets/telegramlogo.webp";
 
-export function FinalCtaSection({ selectedProgramId }: { selectedProgramId: ProgramId }) {
+export function FinalCtaSection() {
   return (
     <section className="final-cta reveal" id="request" style={{ backgroundImage: `url(${images.heroBg})` }}>
       <div className="final-cta__intro">
         <span className="eyebrow">Шанхай и Ханчжоу · 4–10 октября</span>
-        <h2>Получите полную программу <em>поездки</em></h2>
-        <p>Ответьте на один вопрос — куратор пришлёт программу по дням, расскажет об условиях участия и поможет подготовиться к путешествию.</p>
+        <h2>Регистрация на поездку <em>закрыта</em></h2>
+        <p>Следите за новыми образовательными маршрутами в наших каналах или возвращайтесь на основной сайт.</p>
         <div className="trust-row">
           <span><Users /> Небольшие группы</span>
           <span><ShieldCheck /> Опытные педагоги</span>
@@ -39,7 +37,7 @@ export function FinalCtaSection({ selectedProgramId }: { selectedProgramId: Prog
           </div>
         </aside>
       </div>
-      <LeadForm compact selectedProgramId={selectedProgramId} />
+      <a className="primary-button final-cta__home" href="https://hochuvseznat.club">Назад на сайт</a>
     </section>
   );
 }

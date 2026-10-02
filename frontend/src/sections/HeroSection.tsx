@@ -1,10 +1,8 @@
 import { ArrowRight } from "lucide-react";
 import { AnimatedStat } from "../components/AnimatedStat";
-import { LeadForm } from "../components/LeadForm";
 import { images } from "../data/siteData";
-import type { ProgramId } from "../data/siteData";
 
-export function HeroSection({ typedWord, selectedProgramId }: { typedWord: string; selectedProgramId: ProgramId }) {
+export function HeroSection({ typedWord }: { typedWord: string }) {
   return (
     <section className="hero" style={{ backgroundImage: `url(${images.heroBg})` }}>
       <div className="hero__content">
@@ -39,7 +37,12 @@ export function HeroSection({ typedWord, selectedProgramId }: { typedWord: strin
           <span>Disneyland</span>
         </div>
       </div>
-      <LeadForm compact selectedProgramId={selectedProgramId} />
+      <aside className="hero-closed-card" aria-label="Статус октябрьской поездки">
+        <span>Шанхай и Ханчжоу · 4–10 октября 2026</span>
+        <h2>Набор на поездку закрыт</h2>
+        <p>Посмотрите программу по дням и подпишитесь на наши каналы, чтобы узнать о следующих поездках.</p>
+        <a className="secondary-button" href="#october-route">Посмотреть маршрут <ArrowRight size={18} /></a>
+      </aside>
     </section>
   );
 }

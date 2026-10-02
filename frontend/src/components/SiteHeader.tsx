@@ -19,7 +19,7 @@ export function SiteHeader({
           <span>образовательные путешествия для детей</span>
         </a>
         <nav id="site-nav" className={menuOpen ? "is-open" : ""}>
-          <a href="#programs" onClick={closeMenu}>Поездка в октябре</a>
+          <a href="#programs" onClick={closeMenu}>Поездка 4–10 октября</a>
           <a href="#october-route" onClick={closeMenu}>Программа по дням</a>
           <a href="#why" onClick={closeMenu}>Почему Китай</a>
           <a href="#media" onClick={closeMenu}>Фото и каналы</a>
@@ -40,7 +40,7 @@ export function SiteHeader({
           </div>
           <a className="site-phone" href="tel:+79039755050" onClick={closeMenu}>+7 (903) 975-50-50</a>
         </div>
-        <a className="header-button" href="#request" onClick={closeMenu}>Получить программу</a>
+        <a className="header-button" href="https://hochuvseznat.club" onClick={closeMenu}>Назад на сайт</a>
         <button
           className="icon-button"
           aria-controls="site-nav"

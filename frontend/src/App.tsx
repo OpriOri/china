@@ -1,14 +1,7 @@
 import { useEffect, useState } from "react";
-import { BookingModal } from "./components/BookingModal";
 import { SiteFooter } from "./components/SiteFooter";
 import { SiteHeader } from "./components/SiteHeader";
-import {
-  heroWords,
-  getDefaultProgram,
-  isProgramId,
-  selectedProgramStorageKey,
-} from "./data/siteData";
-import type { ProgramId } from "./data/siteData";
+import { heroWords } from "./data/siteData";
 import { useRevealOnScroll } from "./hooks/useRevealOnScroll";
 import { useTypedWord } from "./hooks/useTypedWord";
 import { FaqSection } from "./sections/FaqSection";
@@ -25,8 +18,6 @@ import { WhySection } from "./sections/WhySection";
 export function App() {
   const typedWord = useTypedWord(heroWords);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [bookingOpen, setBookingOpen] = useState(false);
-  const [selectedProgramId, setSelectedProgramId] = useState<ProgramId>(getDefaultProgram().id);
 
   useRevealOnScroll();
 
@@ -57,13 +48,6 @@ export function App() {
   }, []);
 
   useEffect(() => {
-    const storedProgram = window.localStorage.getItem(selectedProgramStorageKey);
-    if (isProgramId(storedProgram)) {
-      setSelectedProgramId(storedProgram);
-    }
-  }, []);
-
-  useEffect(() => {
     if (!menuOpen) return;
 
     const closeOnEscape = (event: KeyboardEvent) => {
@@ -80,18 +64,6 @@ export function App() {
 
   const closeMenu = () => setMenuOpen(false);
 
-  const selectProgram = (programId: ProgramId) => {
-    setSelectedProgramId(programId);
-    window.localStorage.setItem(selectedProgramStorageKey, programId);
-  };
-
-  const openBooking = (programId: ProgramId) => {
-    selectProgram(programId);
-    setBookingOpen(true);
-  };
-
-  const closeBooking = () => setBookingOpen(false);
-
   return (
     <>
       <SiteHeader
@@ -101,21 +73,17 @@ export function App() {
       />
 
       <main id="top">
-        <HeroSection typedWord={typedWord} selectedProgramId={selectedProgramId} />
+        <HeroSection typedWord={typedWord} />
         <WhySection />
-        <ProgramsSection openBooking={openBooking} />
+        <ProgramsSection />
         <ProcessSection />
         <GallerySection />
         <TestimonialsSection />
         <TermsSection />
         <IncludedSection />
         <FaqSection />
-        <FinalCtaSection selectedProgramId={selectedProgramId} />
+        <FinalCtaSection />
       </main>
-
-      {bookingOpen && (
-        <BookingModal selectedProgramId={selectedProgramId} onClose={closeBooking} />
-      )}
 
       <SiteFooter />
     </>
